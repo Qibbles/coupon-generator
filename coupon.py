@@ -1,6 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+### Google API client authorization ###
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapi.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
+client = gspread.authorize(creds)
+
+sheet = client.open('Coupon Schedule').'Coupon Summary'
 
 #### GUI ####
 win = tk.Tk()
