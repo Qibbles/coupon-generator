@@ -54,7 +54,7 @@ frame2 = ttk.Frame(win)
 frame2.grid(column=0, row=2)
 
 coupon1Label = ttk.Label(frame2, text="Coupon 1")
-coupon1Label.grid(column=0, row=0, padx=(0,60), sticky="w")
+coupon1Label.grid(column=0, row=0, padx=(0,60))
 
 coupon1ImgVar = tk.StringVar()
 coupon1Img = ttk.Combobox(frame2, textvariable=coupon1ImgVar)
@@ -63,11 +63,11 @@ coupon1Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 1)
 c1EIDLabel = ttk.Label(frame2, text="EID")
-c1EIDLabel.grid(column=3, row=0, padx=20, sticky="w")
+c1EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
 
 # Label for Timing (Coupon 1)
-c1TimeLabel = ttk.Label(frame2, text="Timing")
-c1TimeLabel.grid(column=3, row=1, padx=20, sticky="w")
+c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
+c1TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
 
 # Entry for EID (Coupon 1)
 c1e1Var = tk.StringVar()
@@ -109,11 +109,11 @@ coupon2Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 2)
 c2EIDLabel = ttk.Label(frame3, text="EID")
-c2EIDLabel.grid(column=3, row=0, padx=20, sticky="w")
+c2EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
 
 # Label for Timing (Coupon 2)
-c2TimeLabel = ttk.Label(frame3, text="Timing")
-c2TimeLabel.grid(column=3, row=1, padx=20, sticky="w")
+c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
+c2TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
 
 # Entry for EID (Coupon 2)
 c2e1Var = tk.StringVar()
@@ -154,38 +154,38 @@ coupon3Img["values"] = ["image", "from", "google sheets"]
 coupon3Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 3)
-c3EIDLabel = ttk.Label(frame3, text="EID")
-c3EIDLabel.grid(column=3, row=0, padx=20, sticky="w")
+c3EIDLabel = ttk.Label(frame4, text="EID")
+c3EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
 
 # Label for Timing (Coupon 3)
-c3TimeLabel = ttk.Label(frame3, text="Timing")
-c3TimeLabel.grid(column=3, row=1, padx=20, sticky="w")
+c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
+c3TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
 
 # Entry for EID (Coupon 3)
 c3e1Var = tk.StringVar()
-c3e1Entry = ttk.Entry(frame3, width=5, textvariable=c3e1Var)
+c3e1Entry = ttk.Entry(frame4, width=5, textvariable=c3e1Var)
 c3e1Entry.grid(column=4, row=0, padx=(0,2), pady=2, sticky="w")
 
 c3e2Var = tk.StringVar()
-c3e2Entry = ttk.Entry(frame3, width=5, textvariable=c3e2Var)
+c3e2Entry = ttk.Entry(frame4, width=5, textvariable=c3e2Var)
 c3e2Entry.grid(column=5, row=0, padx=(0,2), pady=2, sticky="w")
 
 c3e3Var = tk.StringVar()
-c3e3Entry = ttk.Entry(frame3, width=5, textvariable=c3e3Var)
+c3e3Entry = ttk.Entry(frame4, width=5, textvariable=c3e3Var)
 c3e3Entry.grid(column=6, row=0, padx=(0,2), pady=2, sticky="w")
 
 # Entry for timing (Coupon 3)
 c3t1Var = tk.StringVar()
-c3t1Entry = ttk.Entry(frame3, width=5, textvariable=c2t1Var)
+c3t1Entry = ttk.Entry(frame4, width=5, textvariable=c3t1Var)
 c3t1Entry.grid(column=4, row=1, padx=(0,2), pady=2, sticky="w")
 
-c2t2Var = tk.StringVar()
-c2t2Entry = ttk.Entry(frame3, width=5, textvariable=c2t2Var)
-c2t2Entry.grid(column=5, row=1, padx=(0,2), pady=2, sticky="w")
+c3t2Var = tk.StringVar()
+c3t2Entry = ttk.Entry(frame4, width=5, textvariable=c3t2Var)
+c3t2Entry.grid(column=5, row=1, padx=(0,2), pady=2, sticky="w")
 
-c2t3Var = tk.StringVar()
-c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
-c2t3Entry.grid(column=6, row=1, padx=(0,2), pady=2, sticky="w")
+c3t3Var = tk.StringVar()
+c3t3Entry = ttk.Entry(frame4, width=5, textvariable=c3t3Var)
+c3t3Entry.grid(column=6, row=1, padx=(0,2), pady=2, sticky="w")
 
 ## Labels
 helpMsg = "WIP"
@@ -193,7 +193,7 @@ helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
 
 imgLabel = ttk.Label(win, text="Image URL")
-imgLabel.grid(column=0, row=0)
+imgLabel.grid(column=0, row=0, padx=180, sticky="w")
 
 
 
