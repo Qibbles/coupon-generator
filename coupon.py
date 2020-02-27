@@ -4,12 +4,12 @@ from tkinter import messagebox
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# ### Google API client authorization ###
-# scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapi.com/auth/drive']
-# creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
-# client = gspread.authorize(creds)
+### Google API client authorization ###
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapi.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
+client = gspread.authorize(creds)
 
-# sheet = client.open('Coupon Schedule').sheet1
+sheet = client.open('Coupon Schedule').sheet1
 
 #### GUI ####
 win = tk.Tk()
