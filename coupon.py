@@ -13,10 +13,12 @@ sheet = client.open('Coupon Schedule')
 worksheet = sheet.worksheet("Coupon Summary")
 
 ### Functions ###
+
+## Generating HTML
 def generate():
-    coupon1 = coupon1ImgVar.get()
-    coupon2 = coupon2ImgVar.get()
-    coupon3 = coupon3ImgVar.get()
+    coupon1 = valueDict[coupon1ImgVar.get()]
+    # coupon2 = valueDict[coupon2ImgVar.get()]
+    # coupon3 = valueDict[coupon3ImgVar.get()]
 
     if len(coupon1) == 0:
         messagebox.showinfo("Oops!","At least 1 Coupon image is required!")
@@ -85,7 +87,7 @@ def generate():
         html.write('    <tr>\n')
         html.write('        <td><img src="'+ flavorDesktop + '" width="100%" alt=""></a></td>\n')
         html.write('        <td><a href="javascript:eventApplyTime(1)"><img src="' + coupon1 + '" width="100%" alt=""></a></td>\n')
-        html.write('        <td><a href="javascript:eventApplyTime(2)"><img src="' + coupon2 + '" width="100%" alt=""></a></td>\n')
+        # html.write('        <td><a href="javascript:eventApplyTime(2)"><img src="' + coupon2 + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('</table>\n')
         html.write('\n')
@@ -101,6 +103,28 @@ def generate():
     #     print("No coupon 2")
     # if len(coupon3) == 0:
     #     print("No coupon 3")
+
+## Populating design dropdown
+def designs():
+    global valueDict
+    global valueDictKey
+    valueDict = {}
+    valueDictKey = []
+    designList = []
+
+    for i in range(len(worksheet.col_values(1))):
+        designList.append(worksheet.cell(i+1, 3).value)
+    del designList[0:2]
+
+    for i in range(len(designList)):
+        if designList[i] != "":
+            valueDict[worksheet.cell(i+3, 1).value] = designList[i]
+            
+    for each in valueDict:
+        valueDictKey.append(each)
+
+designs()
+
 #### GUI ####
 win = tk.Tk()
 win.title("Coupon HTML Creator")
@@ -149,8 +173,7 @@ coupon1Label.grid(column=0, row=0, padx=(0,60))
 coupon1ImgVar = tk.StringVar()
 coupon1Img = ttk.Combobox(frame2, textvariable=coupon1ImgVar)
 
-# coupon1Img["values"] = worksheet.cell(23, 1).value
-print(worksheet.get_all_values()[0])
+coupon1Img["values"] = valueDictKey
 coupon1Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 1)
@@ -196,7 +219,7 @@ coupon2Label.grid(column=0, row=0, padx=(0,60))
 
 coupon2ImgVar = tk.StringVar()
 coupon2Img = ttk.Combobox(frame3, textvariable=coupon2ImgVar)
-coupon2Img["values"] = ["image", "from", "google sheets"]
+# coupon2Img["values"] = valueList
 coupon2Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 2)
@@ -242,7 +265,7 @@ coupon3Label.grid(column=0, row=0, padx=(0,60))
 
 coupon3ImgVar = tk.StringVar()
 coupon3Img = ttk.Combobox(frame4, textvariable=coupon3ImgVar)
-coupon3Img["values"] = ["image", "from", "google sheets"]
+# coupon3Img["values"] = valueList
 coupon3Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 3)
