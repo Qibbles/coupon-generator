@@ -4,7 +4,7 @@ from tkinter import messagebox
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-### Google API client authorization ###
+######## Google API client authorization ########
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
 client = gspread.authorize(creds)
@@ -12,97 +12,7 @@ client = gspread.authorize(creds)
 sheet = client.open('Coupon Schedule')
 worksheet = sheet.worksheet("Coupon Summary")
 
-### Functions ###
-
-## Generating HTML
-def generate():
-    coupon1 = valueDict[coupon1ImgVar.get()]
-    # coupon2 = valueDict[coupon2ImgVar.get()]
-    # coupon3 = valueDict[coupon3ImgVar.get()]
-
-    if len(coupon1) == 0:
-        messagebox.showinfo("Oops!","At least 1 Coupon image is required!")
-    else:
-        flavorDesktop = flavorDesktopEntryVar.get()
-        flavorMobile = flavorMobileEntryVar.get()
-        # Coupon 1 variables
-        c1e1 = c1e1Var.get()
-        c1e2 = c1e2Var.get()
-        c1e3 = c1e3Var.get()
-        c1t1 = c1t1Var.get()
-        c1t2 = c1t2Var.get()
-        c1t3 = c1t3Var.get()
-        # Coupon 2 variables
-        c2e1 = c2e1Var.get()
-        c2e2 = c2e2Var.get()
-        c2e3 = c2e3Var.get()
-        c2t1 = c2t1Var.get()
-        c2t2 = c2t2Var.get()
-        c2t3 = c2t3Var.get()
-        # Coupon 3 variables
-        c3e1 = c3e1Var.get()
-        c3e2 = c3e2Var.get()
-        c3e3 = c3e3Var.get()
-        c3t1 = c3t1Var.get()
-        c3t2 = c3t2Var.get()
-        c3t3 = c3t3Var.get()
-
-        html = open("coupon.html", "w")
-        html.write('<style>\n')
-        html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center;text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
-        html.write('.buttonCpn {background-color: #ffffff; color: black; border: 1px solid #dbe1e2;border-radius: 0px;}\n')
-        html.write('.buttonCpn:hover {background-color: #f8f8fa; color:black;}\n')
-        html.write('</style>\n')
-        html.write('\n')
-        html.write('<script>\n')
-        html.write('function eventApplyTime(x) {\n')
-        html.write('    var currentHour = (new Date()).getHours();\n')
-        html.write('    switch(x) {\n')
-        html.write('        case 1:\n')
-        html.write('            var events = new Array("' + c1e1 + '","' + c1e2 + '","' + c1e3 + '")\n')
-        html.write('            var hours = new Array("' + c1t1 + '","' + c1t2 +'","' + c1t3 + '");\n')
-        html.write('            break;\n')
-        html.write('        case 2:\n')
-        html.write('            var events = new Array("' + c2e1 + '","' + c2e2 + '","' + c2e3 + '")\n')
-        html.write('            var hours = new Array("' + c2t1 + '","' + c2t2 +'","' + c2t3 + '");\n')
-        html.write('            break;\n')
-        html.write('        case 3:\n')
-        html.write('            var events = new Array("' + c3e1 + '","' + c3e2 + '","' + c3e3 + '")\n')
-        html.write('            var hours = new Array("' + c3t1 + '","' + c3t2 +'","' + c3t3 + '");\n')
-        html.write('            break;\n')
-        html.write('    }\n')
-        html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
-        html.write('        else if (hours.length = 2) {\n')
-        html.write('            else if (currentHour >=hours[1]) {Util.EventApply(events[1]);}\n')
-        html.write('        }\n')
-        html.write('        else if (hours.length = 3) {\n')
-        html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
-        html.write('                else if (currentHour >=hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
-        html.write('                else if (currentHour >=hours[2] ) {Util.EventApply(events[2]);}\n')
-        html.write('    }\n')
-        html.write('};\n')
-        html.write('</script>\n')
-        html.write('\n')
-        html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
-        html.write('    <tr>\n')
-        html.write('        <td><img src="'+ flavorDesktop + '" width="100%" alt=""></a></td>\n')
-        html.write('        <td><a href="javascript:eventApplyTime(1)"><img src="' + coupon1 + '" width="100%" alt=""></a></td>\n')
-        # html.write('        <td><a href="javascript:eventApplyTime(2)"><img src="' + coupon2 + '" width="100%" alt=""></a></td>\n')
-        html.write('    </tr>\n')
-        html.write('</table>\n')
-        html.write('\n')
-        html.write('<div align="center" style="padding: 15px 5px;">\n')
-        html.write('<a href="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=610,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Terms and Conditions &#9656;</button></a>\n')
-        html.write('<a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
-        html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
-        html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
-        html.write('</div>\n')
-        html.write('<br>\n')
-        html.close()
-    # if len(coupon2) == 0:
-    #     print("No coupon 2")
-    # if len(coupon3) == 0:
-    #     print("No coupon 3")
+######## Functions ########
 
 ## Populating design dropdown
 def designs():
@@ -115,7 +25,7 @@ def designs():
     for i in range(len(worksheet.col_values(1))):
         designList.append(worksheet.cell(i+1, 3).value)
     del designList[0:2]
-
+# combine 2 for loop?
     for i in range(len(designList)):
         if designList[i] != "":
             valueDict[worksheet.cell(i+3, 1).value] = designList[i]
@@ -123,9 +33,203 @@ def designs():
     for each in valueDict:
         valueDictKey.append(each)
 
+    print(valueDict)
+    print(valueDictKey)
+
 designs()
 
-#### GUI ####
+## Generating HTML
+def generate():
+    global coupon1EID
+    global coupon2EID
+    global coupon3EID
+    global coupon1Dict
+    global coupon2Dict
+    global coupon3Dict
+    global flavorDesktop
+    global flavorMobile
+    noCoupon = []
+    coupon1Dict = {}
+    coupon2Dict = {}
+    coupon3Dict = {}
+
+    if len(coupon1ImgVar.get()) == 0:
+        messagebox.showinfo("Oops!","At least 1 Coupon image is required!")
+    else:
+        if len(coupon1ImgVar.get()) != 0: 
+            noCoupon.append(coupon1ImgVar.get())
+        if len(coupon2ImgVar.get()) != 0:
+            noCoupon.append(coupon2ImgVar.get())   
+        if len(coupon3ImgVar.get()) != 0:
+            noCoupon.append(coupon3ImgVar.get())
+
+    if len(noCoupon) >= 1:     
+            flavorDesktop = flavorDesktopEntryVar.get()
+            flavorMobile = flavorMobileEntryVar.get()
+            if coupon1ImgVar.get() not in valueDict:
+                # coupon1.append(valueDict[coupon1ImgVar.get()])
+            # else:
+                # Write coupon design into google sheet
+                # coupon1 = coupon1ImgVar.get()
+                worksheet.append_row(['Temp','', coupon1ImgVar.get()])
+                valueDict[coupon1ImgVar.get()] = coupon1ImgVar.get()
+            # Coupon 1 variables
+            if len(c1e1Var.get()) == 0:
+                messagebox.showinfo("Error", "You require at least 1 EID!")
+            else:
+                if len(c1e1Var.get()) >= 1:
+                    coupon1Dict[c1e1Var.get()] = c1t1Var.get()
+                    coupon1EID = 1
+                if len(c1e2Var.get()) >= 1:
+                    coupon1Dict[c1e2Var.get()] = c1t2Var.get()
+                    coupon1EID = 2
+                if len(c1e3Var.get()) >= 1:
+                    coupon1Dict[c1e3Var.get()] = c1t3Var.get()
+                    coupon1EID = 3 
+    if len(noCoupon) >= 2:
+        if coupon2ImgVar.get() not in valueDict:
+            worksheet.append_row(['Temp','', coupon2ImgVar.get()])
+            valueDict[coupon2ImgVar.get()] = coupon2ImgVar.get()
+        # Coupon 1 variables
+        if len(c2e1Var.get()) == 0:
+            messagebox.showinfo("Error", "You require at least 1 EID!")
+        else:
+            if len(c2e1Var.get()) >= 1:
+                coupon2Dict[c2e1Var.get()] = c2t1Var.get()
+                coupon2EID = 1
+            if len(c2e2Var.get()) >= 1:
+                coupon2Dict[c2e2Var.get()] = c2t2Var.get()
+                coupon2EID = 2
+            if len(c2e3Var.get()) >= 1:
+                coupon2Dict[c2e3Var.get()] = c2t3Var.get()
+                coupon2EID = 3 
+    if len(noCoupon) >= 3:
+        if coupon3ImgVar.get() not in valueDict:
+            worksheet.append_row(['Temp','', coupon3ImgVar.get()])
+            valueDict[coupon3ImgVar.get()] = coupon3ImgVar.get()
+        # Coupon 1 variables
+        if len(c3e1Var.get()) == 0:
+            messagebox.showinfo("Error", "You require at least 1 EID!")
+        else:
+            if len(c3e1Var.get()) >= 1:
+                coupon3Dict[c3e1Var.get()] = c3t1Var.get()
+                coupon3EID = 1
+            if len(c3e2Var.get()) >= 1:
+                coupon3Dict[c3e2Var.get()] = c3t2Var.get()
+                coupon3EID = 2
+            if len(c3e3Var.get()) >= 1:
+                coupon3Dict[c3e3Var.get()] = c3t3Var.get()
+                coupon3EID = 3 
+
+    HTML(noCoupon)
+    print(len(noCoupon))
+    print(noCoupon)
+
+def HTML(x):
+    html = open("coupon.html", "w")
+    html.write('<style>\n')
+    html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center;text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
+    html.write('.buttonCpn {background-color: #ffffff; color: black; border: 1px solid #dbe1e2;border-radius: 0px;}\n')
+    html.write('.buttonCpn:hover {background-color: #f8f8fa; color:black;}\n')
+    html.write('</style>\n')
+    html.write('\n')
+    html.write('<script>\n')
+    html.write('function eventApplyTime(x) {\n')
+    html.write('    var currentHour = (new Date()).getHours();\n')
+    html.write('    switch(x) {\n')
+    if len(x) >= 1:
+        # Coupon 1 conditionals
+        html.write('        case 1:\n')
+        eidList = []
+        timeList = []
+        for eid, time in coupon1Dict.items():
+                eidList.append(eid)
+                timeList.append(time)
+        if coupon1EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon1EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+    if len(x) >= 2:
+        # Coupon 2 conditionals
+        html.write('        case 2:\n')
+        eidList = []
+        timeList = []
+        for key, value in coupon2Dict.items():
+                eidList.append(eid)
+                timeList.append(time)
+        if coupon2EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon2EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+    if len(x) >= 3:
+        # Coupon 3 conditionals
+        html.write('        case 3:\n')
+        eidList = []
+        timeList = []
+        for key, value in coupon3Dict.items():
+                eidList.append(eid)
+                timeList.append(time)
+        print(eidList)
+        print(timeList)
+        if coupon3EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon3EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+    html.write('    }\n')
+    html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
+    html.write('        else if (hours.length = 2) {\n')
+    html.write('            else if (currentHour >=hours[1]) {Util.EventApply(events[1]);}\n')
+    html.write('        }\n')
+    html.write('        else if (hours.length = 3) {\n')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
+    html.write('                else if (currentHour >=hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
+    html.write('                else if (currentHour >=hours[2] ) {Util.EventApply(events[2]);}\n')
+    html.write('    }\n')
+    html.write('};\n')
+    html.write('</script>\n')
+    html.write('\n')
+    html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
+    html.write('    <tr>\n')
+    if len(flavorDesktop) != 0:
+        html.write('        <td><img src="' + flavorDesktop + '" width="100%" alt=""></a></td>\n')
+    for i in range(len(x)):
+        html.write('        <td><a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="100%" alt=""></a></td>\n')
+    html.write('    </tr>\n')
+    html.write('</table>\n')
+    html.write('\n')
+    html.write('<div align="center" style="padding: 15px 5px;">\n')
+    html.write('<a href="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=610,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Terms and Conditions &#9656;</button></a>\n')
+    html.write('<a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
+    html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
+    html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
+    html.write('</div>\n')
+    html.write('<br>\n')
+    html.close()
+# if len(coupon2) == 0:
+#     print("No coupon 2")
+# if len(coupon3) == 0:
+#     print("No coupon 3")
+    messagebox.showinfo("Success!", "Coupon HTML Generated!")
+
+######## GUI ########
 win = tk.Tk()
 win.title("Coupon HTML Creator")
 win.resizable(False, False)
@@ -219,7 +323,7 @@ coupon2Label.grid(column=0, row=0, padx=(0,60))
 
 coupon2ImgVar = tk.StringVar()
 coupon2Img = ttk.Combobox(frame3, textvariable=coupon2ImgVar)
-# coupon2Img["values"] = valueList
+coupon2Img["values"] = valueDictKey
 coupon2Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 2)
@@ -265,7 +369,7 @@ coupon3Label.grid(column=0, row=0, padx=(0,60))
 
 coupon3ImgVar = tk.StringVar()
 coupon3Img = ttk.Combobox(frame4, textvariable=coupon3ImgVar)
-# coupon3Img["values"] = valueList
+coupon3Img["values"] = valueDictKey
 coupon3Img.grid(column=2, row=0, padx=(32,20), pady=2)
 
 # Label for EID (Coupon 3)
@@ -317,11 +421,5 @@ helpLabel.grid(row=0, column=0)
 
 imgLabel = ttk.Label(win, text="Image URL")
 imgLabel.grid(column=0, row=0, padx=180, sticky="w")
-
-
-
-
-
-
 
 win.mainloop()
