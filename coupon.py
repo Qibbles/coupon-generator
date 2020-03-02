@@ -46,8 +46,8 @@ def generate():
     global coupon1Dict
     global coupon2Dict
     global coupon3Dict
-    global flavorDesktop
-    global flavorMobile
+    global flavorText
+    global date
     noCoupon = []
     coupon1Dict = {}
     coupon2Dict = {}
@@ -64,8 +64,8 @@ def generate():
             noCoupon.append(coupon3ImgVar.get())
 
     if len(noCoupon) >= 1:     
-            flavorDesktop = flavorDesktopEntryVar.get()
-            flavorMobile = flavorMobileEntryVar.get()
+            flavorText = flavorTextEntryVar.get()
+            date = dateEntryVar.get()
             if coupon1ImgVar.get() not in valueDict:
                 # coupon1.append(valueDict[coupon1ImgVar.get()])
             # else:
@@ -126,9 +126,10 @@ def generate():
     print(noCoupon)
 
 def HTML(x):
-    html = open("coupon.html", "w")
+    html = open("Coupon_" + date + ".html", "w")
+    ##### CSS #####
     html.write('<style>\n')
-    html.write('@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');\n')
+    html.write('@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");\n')
     html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
     html.write('.buttonCpn {background-color: #ffffff; color: black; border: 1px solid #dbe1e2;border-radius: 0px;}\n')
     html.write('.buttonCpn:hover {background-color: #f8f8fa; color:black;}\n')
@@ -138,24 +139,22 @@ def HTML(x):
     html.write('}\n')
     html.write('\n')
     html.write('.cartcoupondate {\n')
-	html.write('font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';\n')
-	html.write('background: #ec2e3c;\n')
-	html.write('border-radius: 18px;\n')
-	html.write('border: 0px;\n')
-	html.write('color: #FFF;\n')
-	html.write('font-size: 16px;\n')
-	html.write('letter-spacing: 1px;\n')
-	html.write('padding: 7px 25px;\n')
-	html.write('}\n')
+    html.write('font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('background: #ec2e3c;\n')
+    html.write('border-radius: 18px;\n')
+    html.write('border: 0px;\n')
+    html.write('color: #FFF;\n')
+    html.write('font-size: 16px;\n')
+    html.write('letter-spacing: 1px;\n')
+    html.write('padding: 7px 25px;\n')
+    html.write('}\n')
     html.write('.cartcouponphrase {\n')
-	font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
-	font-size: 38px;
-	font-weight: 700;
-	color: #333333;	
-	line-height: 40px;
-	}
-
-
+    html.write('font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('font-size: 38px;\n')
+    html.write('font-weight: 700;\n')
+    html.write('color: #333333;\n')
+    html.write('line-height: 40px;\n')
+    html.write('}\n')
     html.write('</style>\n')
     html.write('\n')
     html.write('<script>\n')
@@ -168,8 +167,8 @@ def HTML(x):
         eidList = []
         timeList = []
         for eid, time in coupon1Dict.items():
-                eidList.append(eid)
-                timeList.append(time)
+            eidList.append(eid)
+            timeList.append(time)
         if coupon1EID == 3:
             html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
@@ -180,14 +179,16 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
     if len(x) >= 2:
         # Coupon 2 conditionals
         html.write('        case 2:\n')
-        eidList = []
-        timeList = []
-        for key, value in coupon2Dict.items():
-                eidList.append(eid)
-                timeList.append(time)
+        eid2List = []
+        time2List = []
+        for eid, time in coupon2Dict.items():
+            eidList.append(eid)
+            timeList.append(time)
         if coupon2EID == 3:
             html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
@@ -198,14 +199,16 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
     if len(x) >= 3:
         # Coupon 3 conditionals
         html.write('        case 3:\n')
-        eidList = []
-        timeList = []
-        for key, value in coupon3Dict.items():
-                eidList.append(eid)
-                timeList.append(time)
+        eid3List = []
+        time3List = []
+        for eid, time in coupon3Dict.items():
+            eidList.append(eid)
+            timeList.append(time)
         print(eidList)
         print(timeList)
         if coupon3EID == 3:
@@ -218,6 +221,8 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
     html.write('    }\n')
     html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
     html.write('        else if (hours.length = 2) {\n')
@@ -231,13 +236,19 @@ def HTML(x):
     html.write('};\n')
     html.write('</script>\n')
     html.write('\n')
-    html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
-    html.write('    <tr>\n')
-    if len(flavorDesktop) != 0:
-        html.write('        <td><img src="' + flavorDesktop + '" width="100%" alt=""></a></td>\n')
+    ##### HTML part begins #####
+    html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
+    html.write('<tr>\n')
+    if len(flavorText) and len(date) != 0:
+        html.write('    <td width="328" style="padding-left: 26px;">\n')
+        html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
+        html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
+        html.write('    </td>\n')
     for i in range(len(x)):
-        html.write('        <td><a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="100%" alt=""></a></td>\n')
-    html.write('    </tr>\n')
+        html.write('    <td width="326" align="center" style="padding-right: 10px">\n')
+        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="100%" alt=""></a>\n')
+        html.write('    </td>\n')
+    html.write('</tr>\n')
     html.write('</table>\n')
     html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
@@ -252,7 +263,7 @@ def HTML(x):
 #     print("No coupon 2")
 # if len(coupon3) == 0:
 #     print("No coupon 3")
-    messagebox.showinfo("Success!", "Coupon HTML Generated!")
+    messagebox.showinfo("Success!", 'Filename: "Coupon_' + date + '.html" Generated!')
 
 ######## GUI ########
 win = tk.Tk()
@@ -273,167 +284,163 @@ nb.add(guide, text="Help")
 
 ## Frame 1 (Flavor frame)
 frame1 = ttk.Frame(win)
-frame1.grid(column=0, row=1, sticky="nsew")
+frame1.grid(column=0, row=0, padx=5)
+
+dateLabel = ttk.Label(frame1, text="Date")
+dateLabel.grid(column=0, row=0, padx=10, sticky="nw")
+
+dateEntryVar = tk.StringVar()
+dateEntry = ttk.Entry(frame1, width=20, textvariable=dateEntryVar)
+dateEntry.grid(column=1, row=0, pady=2, sticky="nw")
 
 flavorLabel = ttk.Label(frame1, text="Flavor Text")
-flavorLabel.grid(column=0, row=0, rowspan=2, sticky="w")
+flavorLabel.grid(column=0, row=1, padx=10, sticky="nw")
 
-flavorDesktopLabel = ttk.Label(frame1, text="Desktop")
-flavorDesktopLabel.grid(column=1, row=0, padx=20, sticky="w")
-
-flavorMobileLabel = ttk.Label(frame1, text="Mobile")
-flavorMobileLabel.grid(column=1, row=1, padx=20, sticky="w")
-
-flavorDesktopEntryVar = tk.StringVar()
-flavorDesktopEntry = ttk.Entry(frame1, width=20, textvariable=flavorDesktopEntryVar)
-flavorDesktopEntry.grid(column=2, row=0, padx=(0,20), pady=2, sticky="w")
-
-flavorMobileEntryVar = tk.StringVar()
-flavorMobileEntry = ttk.Entry(frame1, width=20, textvariable=flavorMobileEntryVar)
-flavorMobileEntry.grid(column=2, row=1, padx=(0,20), pady=2, sticky="w")
+flavorTextEntryVar = tk.StringVar()
+flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
+flavorTextEntry.grid(column=1, row=1, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
 frame2 = ttk.Frame(win)
-frame2.grid(column=0, row=2)
+frame2.grid(column=1, row=0, padx=5)
 
 coupon1Label = ttk.Label(frame2, text="Coupon 1")
-coupon1Label.grid(column=0, row=0, padx=(0,60))
+coupon1Label.grid(column=0, row=0, columnspan=3)
 
 coupon1ImgVar = tk.StringVar()
-coupon1Img = ttk.Combobox(frame2, textvariable=coupon1ImgVar)
-
+coupon1Img = ttk.Combobox(frame2, width=15, textvariable=coupon1ImgVar)
 coupon1Img["values"] = valueDictKey
-coupon1Img.grid(column=2, row=0, padx=(32,20), pady=2)
+coupon1Img.grid(column=0, row=1, columnspan=3)
 
 # Label for EID (Coupon 1)
 c1EIDLabel = ttk.Label(frame2, text="EID")
-c1EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
-
-# Label for Timing (Coupon 1)
-c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
-c1TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
+c1EIDLabel.grid(column=0, row=2, columnspan=3)
 
 # Entry for EID (Coupon 1)
 c1e1Var = tk.StringVar()
 c1e1Entry = ttk.Entry(frame2, width=5, textvariable=c1e1Var)
-c1e1Entry.grid(column=4, row=0, padx=(0,2), pady=2, sticky="w")
+c1e1Entry.grid(column=0, row=3, padx=2, pady=2)
 
 c1e2Var = tk.StringVar()
 c1e2Entry = ttk.Entry(frame2, width=5, textvariable=c1e2Var)
-c1e2Entry.grid(column=5, row=0, padx=(0,2), pady=2, sticky="w")
+c1e2Entry.grid(column=1, row=3, padx=2, pady=2)
 
 c1e3Var = tk.StringVar()
 c1e3Entry = ttk.Entry(frame2, width=5, textvariable=c1e3Var)
-c1e3Entry.grid(column=6, row=0, padx=(0,2), pady=2, sticky="w")
+c1e3Entry.grid(column=2, row=3, padx=2, pady=2)
+
+# Label for Timing (Coupon 1)
+c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
+c1TimeLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for timing (Coupon 1)
 c1t1Var = tk.StringVar()
 c1t1Entry = ttk.Entry(frame2, width=5, textvariable=c1t1Var)
-c1t1Entry.grid(column=4, row=1, padx=(0,2), pady=2, sticky="w")
+c1t1Entry.grid(column=0, row=5, padx=2, pady=2)
 
 c1t2Var = tk.StringVar()
 c1t2Entry = ttk.Entry(frame2, width=5, textvariable=c1t2Var)
-c1t2Entry.grid(column=5, row=1, padx=(0,2), pady=2, sticky="w")
+c1t2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c1t3Var = tk.StringVar()
 c1t3Entry = ttk.Entry(frame2, width=5, textvariable=c1t3Var)
-c1t3Entry.grid(column=6, row=1, padx=(0,2), pady=2, sticky="w")
+c1t3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 ## Frame 3 (Coupon 2 frame)
 frame3 = ttk.Frame(win)
-frame3.grid(column=0, row=3)
+frame3.grid(column=2, row=0, padx=5)
 
 coupon2Label = ttk.Label(frame3, text="Coupon 2")
-coupon2Label.grid(column=0, row=0, padx=(0,60))
+coupon2Label.grid(column=0, row=0, columnspan=3)
 
 coupon2ImgVar = tk.StringVar()
-coupon2Img = ttk.Combobox(frame3, textvariable=coupon2ImgVar)
+coupon2Img = ttk.Combobox(frame3, width=15, textvariable=coupon2ImgVar)
 coupon2Img["values"] = valueDictKey
-coupon2Img.grid(column=2, row=0, padx=(32,20), pady=2)
+coupon2Img.grid(column=0, row=1, columnspan=3)
 
 # Label for EID (Coupon 2)
 c2EIDLabel = ttk.Label(frame3, text="EID")
-c2EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
-
-# Label for Timing (Coupon 2)
-c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
-c2TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
+c2EIDLabel.grid(column=0, row=2, columnspan=3)
 
 # Entry for EID (Coupon 2)
 c2e1Var = tk.StringVar()
 c2e1Entry = ttk.Entry(frame3, width=5, textvariable=c2e1Var)
-c2e1Entry.grid(column=4, row=0, padx=(0,2), pady=2, sticky="w")
+c2e1Entry.grid(column=0, row=3, padx=2, pady=2)
 
 c2e2Var = tk.StringVar()
 c2e2Entry = ttk.Entry(frame3, width=5, textvariable=c2e2Var)
-c2e2Entry.grid(column=5, row=0, padx=(0,2), pady=2, sticky="w")
+c2e2Entry.grid(column=1, row=3, padx=2, pady=2)
 
 c2e3Var = tk.StringVar()
 c2e3Entry = ttk.Entry(frame3, width=5, textvariable=c2e3Var)
-c2e3Entry.grid(column=6, row=0, padx=(0,2), pady=2, sticky="w")
+c2e3Entry.grid(column=2, row=3, padx=2, pady=2)
+
+# Label for Timing (Coupon 2)
+c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
+c2TimeLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for timing (Coupon 2)
 c2t1Var = tk.StringVar()
 c2t1Entry = ttk.Entry(frame3, width=5, textvariable=c2t1Var)
-c2t1Entry.grid(column=4, row=1, padx=(0,2), pady=2, sticky="w")
+c2t1Entry.grid(column=0, row=5, padx=2, pady=2)
 
 c2t2Var = tk.StringVar()
 c2t2Entry = ttk.Entry(frame3, width=5, textvariable=c2t2Var)
-c2t2Entry.grid(column=5, row=1, padx=(0,2), pady=2, sticky="w")
+c2t2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c2t3Var = tk.StringVar()
 c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
-c2t3Entry.grid(column=6, row=1, padx=(0,2), pady=2, sticky="w")
+c2t3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 ## Frame 4 (Coupon 3 frame)
 frame4 = ttk.Frame(win)
-frame4.grid(column=0, row=4)
+frame4.grid(column=3, row=0, padx=5)
 
 coupon3Label = ttk.Label(frame4, text="Coupon 3")
-coupon3Label.grid(column=0, row=0, padx=(0,60))
+coupon3Label.grid(column=0, row=0, columnspan=3)
 
 coupon3ImgVar = tk.StringVar()
-coupon3Img = ttk.Combobox(frame4, textvariable=coupon3ImgVar)
+coupon3Img = ttk.Combobox(frame4, width=15, textvariable=coupon3ImgVar)
 coupon3Img["values"] = valueDictKey
-coupon3Img.grid(column=2, row=0, padx=(32,20), pady=2)
+coupon3Img.grid(column=0, row=1, columnspan=3)
 
 # Label for EID (Coupon 3)
 c3EIDLabel = ttk.Label(frame4, text="EID")
-c3EIDLabel.grid(column=3, row=0, padx=10, sticky="w")
-
-# Label for Timing (Coupon 3)
-c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
-c3TimeLabel.grid(column=3, row=1, padx=10, sticky="w")
+c3EIDLabel.grid(column=0, row=2, columnspan=3)
 
 # Entry for EID (Coupon 3)
 c3e1Var = tk.StringVar()
 c3e1Entry = ttk.Entry(frame4, width=5, textvariable=c3e1Var)
-c3e1Entry.grid(column=4, row=0, padx=(0,2), pady=2, sticky="w")
+c3e1Entry.grid(column=0, row=3, padx=2, pady=2)
 
 c3e2Var = tk.StringVar()
 c3e2Entry = ttk.Entry(frame4, width=5, textvariable=c3e2Var)
-c3e2Entry.grid(column=5, row=0, padx=(0,2), pady=2, sticky="w")
+c3e2Entry.grid(column=1, row=3, padx=2, pady=2)
 
 c3e3Var = tk.StringVar()
 c3e3Entry = ttk.Entry(frame4, width=5, textvariable=c3e3Var)
-c3e3Entry.grid(column=6, row=0, padx=(0,2), pady=2, sticky="w")
+c3e3Entry.grid(column=2, row=3, padx=2, pady=2)
+
+# Label for Timing (Coupon 3)
+c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
+c3TimeLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for timing (Coupon 3)
 c3t1Var = tk.StringVar()
 c3t1Entry = ttk.Entry(frame4, width=5, textvariable=c3t1Var)
-c3t1Entry.grid(column=4, row=1, padx=(0,2), pady=2, sticky="w")
+c3t1Entry.grid(column=0, row=5)
 
 c3t2Var = tk.StringVar()
 c3t2Entry = ttk.Entry(frame4, width=5, textvariable=c3t2Var)
-c3t2Entry.grid(column=5, row=1, padx=(0,2), pady=2, sticky="w")
+c3t2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c3t3Var = tk.StringVar()
 c3t3Entry = ttk.Entry(frame4, width=5, textvariable=c3t3Var)
-c3t3Entry.grid(column=6, row=1, padx=(0,2), pady=2, sticky="w")
+c3t3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 ## Frame 5 (Buttons frame)
 frame5 = ttk.Frame(win)
-frame5.grid(column=0, row=5)
+frame5.grid(column=0, row=2, columnspan=4, sticky="nsew")
 
 # Button
 generateButton = ttk.Button(frame5, text="Generate", command=generate)
@@ -443,8 +450,5 @@ generateButton.grid(column=0, row=0)
 helpMsg = "WIP"
 helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
-
-imgLabel = ttk.Label(win, text="Image URL")
-imgLabel.grid(column=0, row=0, padx=180, sticky="w")
 
 win.mainloop()

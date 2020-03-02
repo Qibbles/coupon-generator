@@ -1,7 +1,30 @@
 <style>
-.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center;text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
+.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}
 .buttonCpn {background-color: #ffffff; color: black; border: 1px solid #dbe1e2;border-radius: 0px;}
 .buttonCpn:hover {background-color: #f8f8fa; color:black;}
+
+.cartcoupontable {
+border: 1px solid #dbe1e2;
+}
+
+.cartcoupondate {
+font-family: Montserrat, Helvetica, Arial, sans-serif;
+background: #ec2e3c;
+border-radius: 18px;
+border: 0px;
+color: #FFF;
+font-size: 16px;
+letter-spacing: 1px;
+padding: 7px 25px;
+}
+.cartcouponphrase {
+font-family: Montserrat, Helvetica, Arial, sans-serif;
+font-size: 38px;
+font-weight: 700;
+color: #333333;
+line-height: 40px;
+}
 </style>
 
 <script>
@@ -9,16 +32,12 @@ function eventApplyTime(x) {
     var currentHour = (new Date()).getHours();
     switch(x) {
         case 1:
-            var events = new Array("werwe","ewrwe","rwer")
-            var hours = new Array("rwer","rwerwe","werwer");
+            var events = new Array("1e")
+            var hours = new Array("1t")
             break;
         case 2:
-            var events = new Array("rwer","werwe","sdf")
-            var hours = new Array("rwerwe","erwerwe","sdf");
-            break;
-        case 3:
-            var events = new Array("werw","erWER","dfgdf")
-            var hours = new Array("gdfg","dfgdf","gdfg");
+            var events = new Array("1e","2e")
+            var hours = new Array("1t","2t");
             break;
     }
     if (hours.length = 1) {Util.EventApply(events[0]);}
@@ -33,12 +52,19 @@ function eventApplyTime(x) {
 };
 </script>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td><a href="javascript:eventApplyTime(1)"><img src="https://www.thesprucepets.com/thmb/_0lDHqeV70OFbtpQP--waiU-Wh0=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/egypt-59b7224c6f53ba00114fa958-59bae4346f53ba0010439047.jpg" width="100%" alt=""></a></td>
-        <td><a href="javascript:eventApplyTime(2)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/2CouponRewards_SID_web_02.jpg" width="100%" alt=""></a></td>
-        <td><a href="javascript:eventApplyTime(3)"><img src="https://specials-images.forbesimg.com/imageserve/5db4c7b464b49a0007e9dfac/960x0.jpg?fit=scale" width="100%" alt=""></a></td>
-    </tr>
+<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">
+<tr>
+    <td width="328" style="padding-left: 26px;">
+        <span class="cartcoupondate">19 Nov</span><br><br>
+        <span class="cartcouponphrase">Your birthday</span>
+    </td>
+    <td width="326" align="center" style="padding-right: 10px">
+        <a href="javascript:eventApplyTime(1)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/cartcoupons/6_off_40.png" width="100%" alt=""></a>
+    </td>
+    <td width="326" align="center" style="padding-right: 10px">
+        <a href="javascript:eventApplyTime(2)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/cartcoupons/9_off_60.png" width="100%" alt=""></a>
+    </td>
+</tr>
 </table>
 
 <div align="center" style="padding: 15px 5px;">
