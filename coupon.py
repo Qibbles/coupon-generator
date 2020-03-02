@@ -128,9 +128,34 @@ def generate():
 def HTML(x):
     html = open("coupon.html", "w")
     html.write('<style>\n')
-    html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center;text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
+    html.write('@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');\n')
+    html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
     html.write('.buttonCpn {background-color: #ffffff; color: black; border: 1px solid #dbe1e2;border-radius: 0px;}\n')
     html.write('.buttonCpn:hover {background-color: #f8f8fa; color:black;}\n')
+    html.write('\n')
+    html.write('.cartcoupontable {\n')
+    html.write('border: 1px solid #dbe1e2;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.cartcoupondate {\n')
+	html.write('font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';\n')
+	html.write('background: #ec2e3c;\n')
+	html.write('border-radius: 18px;\n')
+	html.write('border: 0px;\n')
+	html.write('color: #FFF;\n')
+	html.write('font-size: 16px;\n')
+	html.write('letter-spacing: 1px;\n')
+	html.write('padding: 7px 25px;\n')
+	html.write('}\n')
+    html.write('.cartcouponphrase {\n')
+	font-family: 'Montserrat', Helvetica, Arial, 'sans-serif';
+	font-size: 38px;
+	font-weight: 700;
+	color: #333333;	
+	line-height: 40px;
+	}
+
+
     html.write('</style>\n')
     html.write('\n')
     html.write('<script>\n')
