@@ -122,12 +122,11 @@ def generate():
                 coupon3EID = 3 
 
     HTML(noCoupon)
-    print(len(noCoupon))
-    print(noCoupon)
 
 def HTML(x):
     html = open("Coupon_" + date + ".html", "w")
-    ##### CSS #####
+    ##### Desktop #####
+    # CSS 
     html.write('<style>\n')
     html.write('@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");\n')
     html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
@@ -236,7 +235,6 @@ def HTML(x):
     html.write('};\n')
     html.write('</script>\n')
     html.write('\n')
-    ##### HTML part begins #####
     html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
     html.write('<tr>\n')
     if len(flavorText) and len(date) != 0:
@@ -252,17 +250,154 @@ def HTML(x):
     html.write('</table>\n')
     html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
-    html.write('<a href="https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=610,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Terms and Conditions &#9656;</button></a>\n')
+    html.write('<a href="' + tncEntryVar.get() + '" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=610,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Terms and Conditions &#9656;</button></a>\n')
     html.write('<a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
     html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
     html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
     html.write('</div>\n')
-    html.write('<br>\n')
+    html.write('\n')
+    html.write('\n')
+    html.write('\n')
+    ##### Mobile #####
+    html.write('<style>\n')
+    html.write('@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");\n')
+    html.write('.cartcoupontable {\n')
+    html.write('    border: 1px solid #dbe1e2;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.cartcoupontable td{\n')
+    html.write('    padding: 0px 5px;\n')
+    html.write('}\n')
+    html.write('\n')	
+    html.write('.cartcoupondate {\n')
+    html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('    background: #ec2e3c;\n')
+    html.write('    border-radius: 18px;\n')
+    html.write('    border: 0px;\n')
+    html.write('    color: #FFF;\n')
+    html.write('    font-size: 25px;\n')
+    html.write('    letter-spacing: 1px;\n')
+    html.write('    padding: 7px 25px;\n')
+    html.write('    text-align: center\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.cartcouponphrase {\n')
+    html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('    font-size: 35px;\n')
+    html.write('    font-weight: 700;\n')
+    html.write('    color: #333333;\n')
+    html.write('    line-height: 27px;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('</style>\n')
+    html.write('\n')
+    html.write('<script>\n')
+    html.write('function eventApplyTime(x) {\n')
+    html.write('    var currentHour = (new Date()).getHours();\n')
+    html.write('    switch(x) {\n')
+    if len(x) >= 1:
+        # Coupon 1 conditionals
+        html.write('        case 1:\n')
+        eidList = []
+        timeList = []
+        for eid, time in coupon1Dict.items():
+            eidList.append(eid)
+            timeList.append(time)
+        if coupon1EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon1EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
+    if len(x) >= 2:
+        # Coupon 2 conditionals
+        html.write('        case 2:\n')
+        eid2List = []
+        time2List = []
+        for eid, time in coupon2Dict.items():
+            eidList.append(eid)
+            timeList.append(time)
+        if coupon2EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon2EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
+    if len(x) >= 3:
+        # Coupon 3 conditionals
+        html.write('        case 3:\n')
+        eid3List = []
+        time3List = []
+        for eid, time in coupon3Dict.items():
+            eidList.append(eid)
+            timeList.append(time)
+        print(eidList)
+        print(timeList)
+        if coupon3EID == 3:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '","' + str(eidList[2]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '","' + str(timeList[2]) + '");\n')
+        elif coupon3EID == 2:
+            html.write('            var events = new Array("' + str(eidList[0]) + '","' + str(eidList[1]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '","' + str(timeList[1]) + '");\n')
+        else:
+            html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
+            html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
+        html.write('            break;\n')
+        eidList.clear()
+        timeList.clear()
+    html.write('    }\n')
+    html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
+    html.write('        else if (hours.length = 2) {\n')
+    html.write('            else if (currentHour >=hours[1]) {Util.EventApply(events[1]);}\n')
+    html.write('        }\n')
+    html.write('        else if (hours.length = 3) {\n')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
+    html.write('                else if (currentHour >=hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
+    html.write('                else if (currentHour >=hours[2] ) {Util.EventApply(events[2]);}\n')
+    html.write('    }\n')
+    html.write('};\n')
+    html.write('</script>\n')
+    html.write('\n')
+    html.write('<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
+    if len(flavorText) and len(date) != 0:
+        html.write('    <tr>\n')
+        html.write('        <td align="center" style="padding: 20px 0px;" width="50%" >\n')
+        html.write('        <span class="cartcoupondate">' + date + '</span></td>\n')
+        html.write('        <td width="50%" valign="middle" align="center">\n')
+        html.write('            <span class="cartcouponphrase">' + flavorText + '</span></td>\n')
+        html.write('    </tr>\n')
+    html.write('    <tr>\n')
+    html.write('        <td colspan="2" align="center" valign="top">\n')
+    for i in range(len(x)):
+        html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="42%" style="margin: 0px 10px;"></a>\n')
+    html.write('        </td>\n')
+    html.write('    </tr>\n')
+    html.write('    <tr>\n')
+    html.write('        <td colspan="3" align="center">&nbsp;</td>\n')
+    html.write('    </tr>\n')
+    html.write('</table>\n')
+    html.write('<table width="100%" border="0">\n')
+    html.write('<tr>\n')
+    html.write('    <td><a href="' + tncEntryVar.get() + '" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0302/coupon/0302-0303_1Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=700,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_01.png" width="100%"></a></td>\n')
+    html.write('    <td><a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_02.png" width="100%"></a></td>\n')
+    html.write('    <td><a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/sendcoupon_MB.html" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/sendcoupon_MB.html","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_03.png" width="100%"></a></td>\n')
+    html.write('    <td><a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/howtousecoupon_MB.html" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/howtousecoupon_MB.html","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_04.png" width="100%"></a></td>\n')
+    html.write('</tr>\n')
+    html.write('</table>\n')
+
     html.close()
-# if len(coupon2) == 0:
-#     print("No coupon 2")
-# if len(coupon3) == 0:
-#     print("No coupon 3")
     messagebox.showinfo("Success!", 'Filename: "Coupon_' + date + '.html" Generated!')
 
 ######## GUI ########
@@ -299,6 +434,13 @@ flavorLabel.grid(column=0, row=1, padx=10, sticky="nw")
 flavorTextEntryVar = tk.StringVar()
 flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
 flavorTextEntry.grid(column=1, row=1, pady=2, sticky="nw")
+
+tncLabel = ttk.Label(frame1, text="T&Cs")
+tncLabel.grid(column=0, row=2, padx=10, sticky="nw")
+
+tncEntryVar = tk.StringVar()
+tncEntry = ttk.Entry(frame1, width=20, textvariable=tncEntryVar)
+tncEntry.grid(column=1, row=2, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
 frame2 = ttk.Frame(win)
