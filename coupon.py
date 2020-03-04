@@ -331,14 +331,14 @@ def HTML(x):
     html.write('            <li>Event runs from <b>5 March 2020 to 6 March 2020 (Event Period)</b>.</li>\n')
     html.write('            <li>Coupons can only be received during event period.</li>\n')
 
-    # for i in range(len(x)):
-    #     html.write('    <td width="326" align="center" style="padding-right: 10px">\n')
-    #     html.write('        <img src="' + valueDict[x[i]] + '" width="100%" alt=""></a>\n')
-    #     html.write('    </td>\n')
-
-    html.write('            <li>Coupon redemption starts 12am daily.</li>\n')
-    value = coupon1ImgVar.get().split('/')
-    html.write('            <li><b>' + value[0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[1] + '</b>.</li>\n')
+    for i in range(len(x)):
+        value = coupon1ImgVar.get().split('/')
+        html.write('            <li><b>' + value[0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[1] + '</b>.</li>\n')
+        html.write('            <li>Coupon redemption available at daily at:.</li>\n')
+        html.write('                <ul>\n')
+        for time in range(len(timeList)):
+            html.write('                    <li>' + timeList[time] + ':00\n')
+        html.write('                </ul>')
     html.write('            <li><b>0 MameQ</b> is required for this cart coupon.</li>\n')
     html.write('            <li>Coupon is limited to a total of 40,000 applicants daily.</li>\n')
     html.write('            <li>Coupons will be available for redemption daily at the following timings (GMT+8):</li>\n')
