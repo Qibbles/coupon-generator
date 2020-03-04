@@ -4,27 +4,27 @@ from tkinter import messagebox
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-import sys
-import os
+# import sys
+# import os
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
+# def resource_path(relative_path):
+#     """ Get absolute path to resource, works for dev and for PyInstaller """
+#     try:
+#         # PyInstaller creates a temp folder and stores path in _MEIPASS
+#         base_path = sys._MEIPASS
+#     except Exception:
+#         base_path = os.path.abspath(".")
 
-    return os.path.join(base_path, relative_path)
+#     return os.path.join(base_path, relative_path)
 
-def print_file(file_path):
-    file_path = resource_path(file_path)
-    with open(file_path) as fp:
-        for line in fp:
-            print(line)
+# def print_file(file_path):
+#     file_path = resource_path(file_path)
+#     with open(file_path) as fp:
+#         for line in fp:
+#             print(line)
 
-if __name__ == '__main__':
-    print_file('data_files/coupon-generator.json')
+# if __name__ == '__main__':
+#     print_file('data_files/coupon-generator.json')
 
 ######## Google API client authorization ########
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
@@ -55,8 +55,8 @@ def designs():
     for each in valueDict:
         valueDictKey.append(each)
 
-    print(valueDict)
-    print(valueDictKey)
+    # print(valueDict)
+    # print(valueDictKey)
 
 designs()
 
@@ -149,6 +149,7 @@ def HTML(x):
     html = open("Coupon_" + date + ".html", "w")
     ##### Desktop #####
     # CSS 
+    html.write('<!-- Desktop -->\n')
     html.write('<style>\n')
     html.write('@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");\n')
     html.write('.button {background-color: #f8f8fa; border: none;color: white; padding: 12px 35px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; -webkit-transition-duration: 0.4s; /* Safari */  transition-duration: 0.4s; cursor: pointer;}\n')
@@ -160,21 +161,64 @@ def HTML(x):
     html.write('}\n')
     html.write('\n')
     html.write('.cartcoupondate {\n')
-    html.write('font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
-    html.write('background: #ec2e3c;\n')
-    html.write('border-radius: 18px;\n')
-    html.write('border: 0px;\n')
-    html.write('color: #FFF;\n')
-    html.write('font-size: 16px;\n')
-    html.write('letter-spacing: 1px;\n')
-    html.write('padding: 7px 25px;\n')
+    html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('    background: #ec2e3c;\n')
+    html.write('    border-radius: 18px;\n')
+    html.write('    border: 0px;\n')
+    html.write('    color: #FFF;\n')
+    html.write('    font-size: 16px;\n')
+    html.write('    letter-spacing: 1px;\n')
+    html.write('    padding: 7px 25px;\n')
     html.write('}\n')
     html.write('.cartcouponphrase {\n')
-    html.write('font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
-    html.write('font-size: 38px;\n')
-    html.write('font-weight: 700;\n')
-    html.write('color: #333333;\n')
-    html.write('line-height: 40px;\n')
+    html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
+    html.write('    font-size: 38px;\n')
+    html.write('    font-weight: 700;\n')
+    html.write('    color: #333333;\n')
+    html.write('    line-height: 40px;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.tncModal {\n')
+    html.write('    display: none; /* Hidden by default */\n')
+    html.write('    position: fixed; /* Stay in place */\n')
+    html.write('    z-index: 1; /* Sit on top */\n')
+    html.write('    padding-top: 100px; /* Location of the box */\n')
+    html.write('    left: 0;\n')
+    html.write('    top: 0;\n')
+    html.write('    width: 100%; /* Full width */\n')
+    html.write('    height: 100%; /* Full height */\n')
+    html.write('    overflow: auto; /* Enable scroll if needed */\n')
+    html.write('    background-color: rgb(0,0,0); /* Fallback color */\n')
+    html.write('    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.tncModalContent {\n')
+    html.write('    background-color: #fefefe;\n')
+    html.write('    padding: 20px;\n')
+    html.write('    border: 1px solid #888;\n')
+    html.write('    width: 80%;\n')
+    html.write('    width: 750px;\n')
+    html.write('    text-align: left;\n')
+    html.write('    font-size: 14px;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.tncHeader {\n')
+    html.write('    font-size: 25;\n')
+    html.write('    font-weight: bold;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.buttonDisplayTopright {\n')
+    html.write('    float: right;\n')
+    html.write('    color: #aaa;\n')
+    html.write('    font-size: 21px;\n')
+    html.write('    font-weight: bold;\n')
+    html.write('}\n')
+    html.write('\n')
+    html.write('.buttonDisplayTopright:hover,\n')
+    html.write('.buttonDisplayTopright:focus {\n')
+    html.write('    color: #000;\n')
+    html.write('    text-decoration: none;\n')
+    html.write('    cursor: pointer;\n')
     html.write('}\n')
     html.write('</style>\n')
     html.write('\n')
@@ -272,15 +316,53 @@ def HTML(x):
     html.write('</table>\n')
     html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
-    html.write('<a href="' + tncEntryVar.get() + '" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0301/coupons/0301_2Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=610,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Terms and Conditions &#9656;</button></a>\n')
+    html.write('<button class="button buttonCpn" onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</button></a>\n')
     html.write('<a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
     html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
     html.write('<a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/11/howtousecoupon_WEB.html?2","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=1, width=950,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
     html.write('</div>\n')
     html.write('\n')
+    html.write('<div id="tnc" class="tncModal">\n')
+    html.write('    <div class="tncModalContent">\n')
+    html.write('        <span onclick="document.getElementById(''tnc'').style.display=''none''"\n')
+    html.write('        class="buttonDisplayTopright">&times;</span>\n')
+    html.write('            <p class="tncHeader">Terms and Conditions</p>\n')
+    html.write('            <ul>\n')
+    html.write('            <li>Event runs from <b>5 March 2020 to 6 March 2020 (Event Period)</b>.</li>\n')
+    html.write('            <li>Coupons can only be received during event period.</li>\n')
+
+    # for i in range(len(x)):
+    #     html.write('    <td width="326" align="center" style="padding-right: 10px">\n')
+    #     html.write('        <img src="' + valueDict[x[i]] + '" width="100%" alt=""></a>\n')
+    #     html.write('    </td>\n')
+
+    html.write('            <li>Coupon redemption starts 12am daily.</li>\n')
+    value = coupon1ImgVar.get().split('/')
+    html.write('            <li><b>' + value[0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[1] + '</b>.</li>\n')
+    html.write('            <li><b>0 MameQ</b> is required for this cart coupon.</li>\n')
+    html.write('            <li>Coupon is limited to a total of 40,000 applicants daily.</li>\n')
+    html.write('            <li>Coupons will be available for redemption daily at the following timings (GMT+8):</li>\n')
+    html.write('                <ul>\n')
+    html.write('                  <li>00:00 AM</li>\n')
+    html.write('                    <li>12:00 PM</li>\n')
+    html.write('                </ul>\n')
+    html.write('            <li>Coupon is valid for the duration of the event period.</li>\n')
+    html.write('            <li>Applicants may only once per coupon during the event period.</li>\n')
+    html.write('            <li>Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
+    html.write('            <li>Entries received after the event period will be invalid and no refunds will be issued.</li>\n')
+    html.write('            <li>Coupons cannot be sold or exchanged for cash.</li>\n')
+    html.write('            <li>Qoo10 Singapore reserves the rights to make any amendments to the Terms and Conditions herein at any point in time, without prior notice.</li>\n')
+    html.write('            <li>By participating in this event, you agree to be bound by the Terms and Conditions, the User Agreement, and the decisions of Qoo10.</li>\n')
+    html.write('            </ul>\n')
+    html.write('        </div>\n')
+    html.write('    </div>\n')
+    html.write('</div>\n')
+    html.write('\n')
+    html.write('\n')
     html.write('\n')
     html.write('\n')
     ##### Mobile #####
+    html.write('<!-- Mobile -->\n')
     html.write('<style>\n')
     html.write('@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");\n')
     html.write('.cartcoupontable {\n')
@@ -412,7 +494,7 @@ def HTML(x):
     html.write('</table>\n')
     html.write('<table width="100%" border="0">\n')
     html.write('<tr>\n')
-    html.write('    <td><a href="' + tncEntryVar.get() + '" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0302/coupon/0302-0303_1Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=700,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_01.png" width="100%"></a></td>\n')
+    # html.write('    <td><a href="' + tncEntryVar.get() + '" onClick="window.open("https://dp.image-gmkt.com/dp2016/SG/design/campaign/2020/03_Mar/0302/coupon/0302-0303_1Coupon_TnCs.jpg","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=700,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_01.png" width="100%"></a></td>\n')
     html.write('    <td><a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_02.png" width="100%"></a></td>\n')
     html.write('    <td><a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/sendcoupon_MB.html" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/sendcoupon_MB.html","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_03.png" width="100%"></a></td>\n')
     html.write('    <td><a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/howtousecoupon_MB.html" onClick="window.open("http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/howtousecoupon_MB.html","window","location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=600,height=800,left=300, top=20, scrollbars=no");return false" onFocus="this.blur()"/><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_04.png" width="100%"></a></td>\n')
@@ -457,12 +539,12 @@ flavorTextEntryVar = tk.StringVar()
 flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
 flavorTextEntry.grid(column=1, row=1, pady=2, sticky="nw")
 
-tncLabel = ttk.Label(frame1, text="T&Cs")
-tncLabel.grid(column=0, row=2, padx=10, sticky="nw")
+# tncLabel = ttk.Label(frame1, text="T&Cs")
+# tncLabel.grid(column=0, row=2, padx=10, sticky="nw")
 
-tncEntryVar = tk.StringVar()
-tncEntry = ttk.Entry(frame1, width=20, textvariable=tncEntryVar)
-tncEntry.grid(column=1, row=2, pady=2, sticky="nw")
+# tncEntryVar = tk.StringVar()
+# tncEntry = ttk.Entry(frame1, width=20, textvariable=tncEntryVar)
+# tncEntry.grid(column=1, row=2, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
 frame2 = ttk.Frame(win)
@@ -476,85 +558,107 @@ coupon1Img = ttk.Combobox(frame2, width=15, textvariable=coupon1ImgVar)
 coupon1Img["values"] = valueDictKey
 coupon1Img.grid(column=0, row=1, columnspan=3)
 
+# MameQ
+mmq1Label = ttk.Label(frame2, text="No. MameQ")
+mmq1Label.grid(column=0, row=2, columnspan=3)
+
+# Entry for MMQ
+mmq1Entry = tk.StringVar()
+mmq1 = ttk.Entry(frame2, width=5, textvariable=mmq1Entry)
+mmq1.insert(0, "0")
+mmq1.grid(column=0, row=3, padx=2, pady=2, columnspan=3)
+
 # Label for EID (Coupon 1)
 c1EIDLabel = ttk.Label(frame2, text="EID")
-c1EIDLabel.grid(column=0, row=2, columnspan=3)
+c1EIDLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for EID (Coupon 1)
 c1e1Var = tk.StringVar()
 c1e1Entry = ttk.Entry(frame2, width=5, textvariable=c1e1Var)
-c1e1Entry.grid(column=0, row=3, padx=2, pady=2)
+c1e1Entry.grid(column=0, row=5, padx=2, pady=2)
 
 c1e2Var = tk.StringVar()
 c1e2Entry = ttk.Entry(frame2, width=5, textvariable=c1e2Var)
-c1e2Entry.grid(column=1, row=3, padx=2, pady=2)
+c1e2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c1e3Var = tk.StringVar()
 c1e3Entry = ttk.Entry(frame2, width=5, textvariable=c1e3Var)
-c1e3Entry.grid(column=2, row=3, padx=2, pady=2)
+c1e3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 # Label for Timing (Coupon 1)
 c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
-c1TimeLabel.grid(column=0, row=4, columnspan=3)
+c1TimeLabel.grid(column=0, row=6, columnspan=3)
 
 # Entry for timing (Coupon 1)
 c1t1Var = tk.StringVar()
 c1t1Entry = ttk.Entry(frame2, width=5, textvariable=c1t1Var)
-c1t1Entry.grid(column=0, row=5, padx=2, pady=2)
+c1t1Entry.grid(column=0, row=7, padx=2, pady=2)
 
 c1t2Var = tk.StringVar()
 c1t2Entry = ttk.Entry(frame2, width=5, textvariable=c1t2Var)
-c1t2Entry.grid(column=1, row=5, padx=2, pady=2)
+c1t2Entry.grid(column=1, row=7, padx=2, pady=2)
 
 c1t3Var = tk.StringVar()
 c1t3Entry = ttk.Entry(frame2, width=5, textvariable=c1t3Var)
-c1t3Entry.grid(column=2, row=5, padx=2, pady=2)
+c1t3Entry.grid(column=2, row=7, padx=2, pady=2)
 
 ## Frame 3 (Coupon 2 frame)
 frame3 = ttk.Frame(win)
 frame3.grid(column=2, row=0, padx=5)
 
+# Coupon 2 Label
 coupon2Label = ttk.Label(frame3, text="Coupon 2")
 coupon2Label.grid(column=0, row=0, columnspan=3)
 
+# Coupon 2 Combobox
 coupon2ImgVar = tk.StringVar()
 coupon2Img = ttk.Combobox(frame3, width=15, textvariable=coupon2ImgVar)
 coupon2Img["values"] = valueDictKey
 coupon2Img.grid(column=0, row=1, columnspan=3)
 
+# MameQ
+mmq2Label = ttk.Label(frame3, text="No. MameQ")
+mmq2Label.grid(column=0, row=2, columnspan=3)
+
+# Entry for MMQ
+mmq2Entry = tk.StringVar()
+mmq2 = ttk.Entry(frame3, width=5, textvariable=mmq2Entry)
+mmq2.insert(0, "0")
+mmq2.grid(column=0, row=3, padx=2, pady=2, columnspan=3)
+
 # Label for EID (Coupon 2)
 c2EIDLabel = ttk.Label(frame3, text="EID")
-c2EIDLabel.grid(column=0, row=2, columnspan=3)
+c2EIDLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for EID (Coupon 2)
 c2e1Var = tk.StringVar()
 c2e1Entry = ttk.Entry(frame3, width=5, textvariable=c2e1Var)
-c2e1Entry.grid(column=0, row=3, padx=2, pady=2)
+c2e1Entry.grid(column=0, row=5, padx=2, pady=2)
 
 c2e2Var = tk.StringVar()
 c2e2Entry = ttk.Entry(frame3, width=5, textvariable=c2e2Var)
-c2e2Entry.grid(column=1, row=3, padx=2, pady=2)
+c2e2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c2e3Var = tk.StringVar()
 c2e3Entry = ttk.Entry(frame3, width=5, textvariable=c2e3Var)
-c2e3Entry.grid(column=2, row=3, padx=2, pady=2)
+c2e3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 # Label for Timing (Coupon 2)
 c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
-c2TimeLabel.grid(column=0, row=4, columnspan=3)
+c2TimeLabel.grid(column=0, row=6, columnspan=3)
 
 # Entry for timing (Coupon 2)
 c2t1Var = tk.StringVar()
 c2t1Entry = ttk.Entry(frame3, width=5, textvariable=c2t1Var)
-c2t1Entry.grid(column=0, row=5, padx=2, pady=2)
+c2t1Entry.grid(column=0, row=7, padx=2, pady=2)
 
 c2t2Var = tk.StringVar()
 c2t2Entry = ttk.Entry(frame3, width=5, textvariable=c2t2Var)
-c2t2Entry.grid(column=1, row=5, padx=2, pady=2)
+c2t2Entry.grid(column=1, row=7, padx=2, pady=2)
 
 c2t3Var = tk.StringVar()
 c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
-c2t3Entry.grid(column=2, row=5, padx=2, pady=2)
+c2t3Entry.grid(column=2, row=7, padx=2, pady=2)
 
 ## Frame 4 (Coupon 3 frame)
 frame4 = ttk.Frame(win)
@@ -568,39 +672,49 @@ coupon3Img = ttk.Combobox(frame4, width=15, textvariable=coupon3ImgVar)
 coupon3Img["values"] = valueDictKey
 coupon3Img.grid(column=0, row=1, columnspan=3)
 
+# MameQ
+mmq3Label = ttk.Label(frame4, text="No. MameQ")
+mmq3Label.grid(column=0, row=2, columnspan=3)
+
+# Entry for MMQ
+mmq3Entry = tk.StringVar()
+mmq3 = ttk.Entry(frame4, width=5, textvariable=mmq3Entry)
+mmq3.insert(0, "0")
+mmq3.grid(column=0, row=3, padx=2, pady=2, columnspan=3)
+
 # Label for EID (Coupon 3)
 c3EIDLabel = ttk.Label(frame4, text="EID")
-c3EIDLabel.grid(column=0, row=2, columnspan=3)
+c3EIDLabel.grid(column=0, row=4, columnspan=3)
 
 # Entry for EID (Coupon 3)
 c3e1Var = tk.StringVar()
 c3e1Entry = ttk.Entry(frame4, width=5, textvariable=c3e1Var)
-c3e1Entry.grid(column=0, row=3, padx=2, pady=2)
+c3e1Entry.grid(column=0, row=5, padx=2, pady=2)
 
 c3e2Var = tk.StringVar()
 c3e2Entry = ttk.Entry(frame4, width=5, textvariable=c3e2Var)
-c3e2Entry.grid(column=1, row=3, padx=2, pady=2)
+c3e2Entry.grid(column=1, row=5, padx=2, pady=2)
 
 c3e3Var = tk.StringVar()
 c3e3Entry = ttk.Entry(frame4, width=5, textvariable=c3e3Var)
-c3e3Entry.grid(column=2, row=3, padx=2, pady=2)
+c3e3Entry.grid(column=2, row=5, padx=2, pady=2)
 
 # Label for Timing (Coupon 3)
 c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
-c3TimeLabel.grid(column=0, row=4, columnspan=3)
+c3TimeLabel.grid(column=0, row=6, columnspan=3)
 
 # Entry for timing (Coupon 3)
 c3t1Var = tk.StringVar()
 c3t1Entry = ttk.Entry(frame4, width=5, textvariable=c3t1Var)
-c3t1Entry.grid(column=0, row=5)
+c3t1Entry.grid(column=0, row=7)
 
 c3t2Var = tk.StringVar()
 c3t2Entry = ttk.Entry(frame4, width=5, textvariable=c3t2Var)
-c3t2Entry.grid(column=1, row=5, padx=2, pady=2)
+c3t2Entry.grid(column=1, row=7, padx=2, pady=2)
 
 c3t3Var = tk.StringVar()
 c3t3Entry = ttk.Entry(frame4, width=5, textvariable=c3t3Var)
-c3t3Entry.grid(column=2, row=5, padx=2, pady=2)
+c3t3Entry.grid(column=2, row=7, padx=2, pady=2)
 
 ## Frame 5 (Buttons frame)
 frame5 = ttk.Frame(win)
