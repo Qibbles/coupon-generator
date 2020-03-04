@@ -337,7 +337,7 @@ def HTML(x):
         html.write('            <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                <ul>\n')
         for time in range(len(timeList)):
-            html.write('                    <li>' + timeList[time] + ':00\n')
+            html.write('                    <li>' + timeList[time] + ':00</li>\n')
         html.write('                </ul>')
     html.write('            <li><b>0 MameQ</b> is required for this cart coupon.</li>\n')
     html.write('            <li>Coupon is limited to a total of 40,000 applicants daily.</li>\n')
