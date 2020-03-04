@@ -244,13 +244,9 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
-        eidList.clear()
-        timeList.clear()
     if len(x) >= 2:
         # Coupon 2 conditionals
         html.write('        case 2:\n')
-        eid2List = []
-        time2List = []
         for eid, time in coupon2Dict.items():
             eidList.append(eid)
             timeList.append(time)
@@ -264,13 +260,9 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
-        eidList.clear()
-        timeList.clear()
     if len(x) >= 3:
         # Coupon 3 conditionals
         html.write('        case 3:\n')
-        eid3List = []
-        time3List = []
         for eid, time in coupon3Dict.items():
             eidList.append(eid)
             timeList.append(time)
@@ -286,8 +278,7 @@ def HTML(x):
             html.write('            var events = new Array("' + str(eidList[0]) + '")\n')
             html.write('            var hours = new Array("' + str(timeList[0]) + '")\n')
         html.write('            break;\n')
-        eidList.clear()
-        timeList.clear()
+        
     html.write('    }\n')
     html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
     html.write('        else if (hours.length = 2) {\n')
@@ -332,7 +323,7 @@ def HTML(x):
     html.write('            <li>Coupons can only be received during event period.</li>\n')
 
     for i in range(len(x)):
-        value = coupon1ImgVar.get().split('/')
+        value = coupon1ImgVar.get().split('/') ##### Need to set get value from different coupon values
         html.write('            <li><b>' + value[0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[1] + '</b>.</li>\n')
         html.write('            <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                <ul>\n')
@@ -341,11 +332,6 @@ def HTML(x):
         html.write('                </ul>')
     html.write('            <li><b>0 MameQ</b> is required for this cart coupon.</li>\n')
     html.write('            <li>Coupon is limited to a total of 40,000 applicants daily.</li>\n')
-    html.write('            <li>Coupons will be available for redemption daily at the following timings (GMT+8):</li>\n')
-    html.write('                <ul>\n')
-    html.write('                  <li>00:00 AM</li>\n')
-    html.write('                    <li>12:00 PM</li>\n')
-    html.write('                </ul>\n')
     html.write('            <li>Coupon is valid for the duration of the event period.</li>\n')
     html.write('            <li>Applicants may only once per coupon during the event period.</li>\n')
     html.write('            <li>Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
