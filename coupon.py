@@ -1,3 +1,4 @@
+import re
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -57,6 +58,19 @@ def designs():
 
 designs()
 
+## Updating design entry box
+
+def update(*args):
+    coupon1Img.delete(first=0, last='end')
+    coupon2Img.delete(first=0, last='end')
+    coupon3Img.delete(first=0, last='end')
+    if len(value1.get()) != 0:
+        coupon1Img.insert(0, valueDict[value1Var.get()])
+    if len(value2.get()) != 0:
+        coupon2Img.insert(0, valueDict[value2Var.get()])
+    if len(value3.get()) != 0:
+        coupon3Img.insert(0, valueDict[value3Var.get()])
+
 ## Generating HTML
 def generate():
     global coupon1EID
@@ -86,12 +100,8 @@ def generate():
             flavorText = flavorTextEntryVar.get()
             date = dateEntryVar.get()
             if coupon1ImgVar.get() not in valueDict:
-                # coupon1.append(valueDict[coupon1ImgVar.get()])
-            # else:
-                # Write coupon design into google sheet
-                # coupon1 = coupon1ImgVar.get()
-                worksheet.append_row(['Temp','', coupon1ImgVar.get()])
-                valueDict[coupon1ImgVar.get()] = coupon1ImgVar.get()
+                worksheet.append_row([value1Var.get(),'', coupon1ImgVar.get()])
+                # valueDict[coupon1ImgVar.get()] = coupon1ImgVar.get()
             # Coupon 1 variables
             if len(c1e1Var.get()) == 0:
                 messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -107,8 +117,8 @@ def generate():
                     coupon1EID = 3 
     if len(noCoupon) >= 2:
         if coupon2ImgVar.get() not in valueDict:
-            worksheet.append_row(['Temp','', coupon2ImgVar.get()])
-            valueDict[coupon2ImgVar.get()] = coupon2ImgVar.get()
+            worksheet.append_row([value2Var.get(),'', coupon2ImgVar.get()])
+            # valueDict[coupon2ImgVar.get()] = coupon2ImgVar.get()
         # Coupon 1 variables
         if len(c2e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -124,8 +134,8 @@ def generate():
                 coupon2EID = 3 
     if len(noCoupon) >= 3:
         if coupon3ImgVar.get() not in valueDict:
-            worksheet.append_row(['Temp','', coupon3ImgVar.get()])
-            valueDict[coupon3ImgVar.get()] = coupon3ImgVar.get()
+            worksheet.append_row([value3Var.get(),'', coupon3ImgVar.get()])
+            # valueDict[coupon3ImgVar.get()] = coupon3ImgVar.get()
         # Coupon 1 variables
         if len(c3e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -143,6 +153,7 @@ def generate():
     HTML(noCoupon)
 
 def HTML(x):
+    print(x)
     html = open("Coupon_" + date + ".html", "w")
     ##### Desktop #####
     # CSS 
@@ -299,7 +310,7 @@ def HTML(x):
         html.write('    </td>\n')
     for i in range(len(x)):
         html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
-        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="100%" alt=""></a>\n')
+        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
         html.write('    </td>\n')
     html.write('</tr>\n')
     html.write('</table>\n')
@@ -320,7 +331,13 @@ def HTML(x):
     html.write('                <li>Event runs from <b>' + date + ' (Event Period)</b>.</li>\n')
     html.write('                <li>Coupons may only be received during <u>Event Period</u>.</li>\n')
     html.write('                <li>Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
-    value = [coupon1ImgVar.get().split('/'),coupon2ImgVar.get().split('/'),coupon3ImgVar.get().split('/')]
+    value = []
+    if re.match("[0-9]\/[0-9]", value1Var.get()):
+        value.append[value1Var.get().split('/')]
+    if re.match("[0-9]\/[0-9", value2Var.get()):
+        value.append[value2Var.get().split('/')]
+    if re.match("[0-9]\/[0-9", value3Var.get()):
+        value.append[value3Var.get().split('/')]
     mmq = [mmq1EntryVar.get(), mmq2EntryVar.get(), mmq3EntryVar.get()]
     qty = [qty1EntryVar.get(), qty2EntryVar.get(), qty3EntryVar.get()]
     for i in range(len(x)):
@@ -496,7 +513,7 @@ def HTML(x):
     html.write('    <tr>\n')
     html.write('        <td colspan="2" align="center" valign="top">\n')
     for i in range(len(x)):
-        html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="42%" style="margin: 0px 10px;"></a>\n')
+        html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="42%" style="margin: 0px 10px;"></a>\n')
     html.write('        </td>\n')
     html.write('    </tr>\n')
     html.write('    <tr>\n')
@@ -584,64 +601,77 @@ frame2.grid(column=1, row=0, padx=5)
 coupon1Label = ttk.Label(frame2, text="Coupon 1")
 coupon1Label.grid(column=0, row=0, columnspan=3)
 
+# Value
+value1Label = ttk.Label(frame2, text="Value")
+value1Label.grid(column=0, row=1)
+
+value1Var = tk.StringVar()
+value1 = ttk.Combobox(frame2, width=8, textvariable=value1Var)
+value1["values"] = valueDictKey
+value1.grid(column=1, row=1, pady=2, columnspan=2)
+value1Var.trace("w", update)
+
+# Design
+design1Label = ttk.Label(frame2, text="Design")
+design1Label.grid(column=0, row=2)
+
 coupon1ImgVar = tk.StringVar()
-coupon1Img = ttk.Combobox(frame2, width=15, textvariable=coupon1ImgVar)
-coupon1Img["values"] = valueDictKey
-coupon1Img.grid(column=0, row=1, columnspan=3)
+coupon1Img = ttk.Entry(frame2, width=11, textvariable=coupon1ImgVar)
+coupon1Img.grid(column=1, row=2, pady=2, columnspan=2)
 
 # Qty
 qty1Label = ttk.Label(frame2, text="Qty")
-qty1Label.grid(column=0, row=2)
+qty1Label.grid(column=0, row=3)
 
 # Entry for Qty
 qty1EntryVar = tk.StringVar()
 qty1 = ttk.Entry(frame2, width=11, textvariable=qty1EntryVar)
 qty1.insert(0, "0")
-qty1.grid(column=1, row=2, padx=2, pady=2, columnspan=2)
+qty1.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq1Label = ttk.Label(frame2, text="No. MameQ")
-mmq1Label.grid(column=0, row=3, columnspan=2)
+mmq1Label.grid(column=0, row=4, columnspan=2)
 
 # Entry for MMQ
 mmq1EntryVar = tk.StringVar()
 mmq1 = ttk.Entry(frame2, width=4, textvariable=mmq1EntryVar)
 mmq1.insert(0, "0")
-mmq1.grid(column=2, row=3, padx=2, pady=2)
+mmq1.grid(column=2, row=4, padx=2, pady=2)
 
 # Label for EID (Coupon 1)
 c1EIDLabel = ttk.Label(frame2, text="EID")
-c1EIDLabel.grid(column=0, row=4, columnspan=3)
+c1EIDLabel.grid(column=0, row=5, columnspan=3)
 
 # Entry for EID (Coupon 1)
 c1e1Var = tk.StringVar()
 c1e1Entry = ttk.Entry(frame2, width=5, textvariable=c1e1Var)
-c1e1Entry.grid(column=0, row=5, padx=2, pady=2)
+c1e1Entry.grid(column=0, row=6, padx=2, pady=2)
 
 c1e2Var = tk.StringVar()
 c1e2Entry = ttk.Entry(frame2, width=5, textvariable=c1e2Var)
-c1e2Entry.grid(column=1, row=5, padx=2, pady=2)
+c1e2Entry.grid(column=1, row=6, padx=2, pady=2)
 
 c1e3Var = tk.StringVar()
 c1e3Entry = ttk.Entry(frame2, width=5, textvariable=c1e3Var)
-c1e3Entry.grid(column=2, row=5, padx=2, pady=2)
+c1e3Entry.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for Timing (Coupon 1)
 c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
-c1TimeLabel.grid(column=0, row=6, columnspan=3)
+c1TimeLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for timing (Coupon 1)
 c1t1Var = tk.StringVar()
 c1t1Entry = ttk.Entry(frame2, width=5, textvariable=c1t1Var)
-c1t1Entry.grid(column=0, row=7, padx=2, pady=2)
+c1t1Entry.grid(column=0, row=8, padx=2, pady=2)
 
 c1t2Var = tk.StringVar()
 c1t2Entry = ttk.Entry(frame2, width=5, textvariable=c1t2Var)
-c1t2Entry.grid(column=1, row=7, padx=2, pady=2)
+c1t2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c1t3Var = tk.StringVar()
 c1t3Entry = ttk.Entry(frame2, width=5, textvariable=c1t3Var)
-c1t3Entry.grid(column=2, row=7, padx=2, pady=2)
+c1t3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 ## Frame 3 (Coupon 2 frame)
 frame3 = ttk.Frame(win)
@@ -651,65 +681,77 @@ frame3.grid(column=2, row=0, padx=5)
 coupon2Label = ttk.Label(frame3, text="Coupon 2")
 coupon2Label.grid(column=0, row=0, columnspan=3)
 
-# Coupon 2 Combobox
+# Value
+value2Label = ttk.Label(frame3, text="Value")
+value2Label.grid(column=0, row=1)
+
+value2Var = tk.StringVar()
+value2 = ttk.Combobox(frame3, width=8, textvariable=value2Var)
+value2["values"] = valueDictKey
+value2.grid(column=1, row=1, pady=2, columnspan=2)
+value2Var.trace("w", update)
+
+# Design
+design2Label = ttk.Label(frame3, text="Design")
+design2Label.grid(column=0, row=2)
+
 coupon2ImgVar = tk.StringVar()
-coupon2Img = ttk.Combobox(frame3, width=15, textvariable=coupon2ImgVar)
-coupon2Img["values"] = valueDictKey
-coupon2Img.grid(column=0, row=1, columnspan=3)
+coupon2Img = ttk.Entry(frame3, width=11, textvariable=coupon2ImgVar)
+coupon2Img.grid(column=1, row=2, pady=2, columnspan=2)
 
 # Qty
 qty2Label = ttk.Label(frame3, text="Qty")
-qty2Label.grid(column=0, row=2)
+qty2Label.grid(column=0, row=3)
 
 # Entry for Qty
 qty2EntryVar = tk.StringVar()
 qty2 = ttk.Entry(frame3, width=11, textvariable=qty2EntryVar)
 qty2.insert(0, "0")
-qty2.grid(column=1, row=2, padx=2, pady=2, columnspan=2)
+qty2.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq2Label = ttk.Label(frame3, text="No. MameQ")
-mmq2Label.grid(column=0, row=3, columnspan=2)
+mmq2Label.grid(column=0, row=4, columnspan=2)
 
 # Entry for MMQ
 mmq2EntryVar = tk.StringVar()
 mmq2 = ttk.Entry(frame3, width=4, textvariable=mmq2EntryVar)
 mmq2.insert(0, "0")
-mmq2.grid(column=2, row=3, padx=2, pady=2)
+mmq2.grid(column=2, row=4, padx=2, pady=2)
 
 # Label for EID (Coupon 2)
 c2EIDLabel = ttk.Label(frame3, text="EID")
-c2EIDLabel.grid(column=0, row=4, columnspan=3)
+c2EIDLabel.grid(column=0, row=5, columnspan=3)
 
 # Entry for EID (Coupon 2)
 c2e1Var = tk.StringVar()
 c2e1Entry = ttk.Entry(frame3, width=5, textvariable=c2e1Var)
-c2e1Entry.grid(column=0, row=5, padx=2, pady=2)
+c2e1Entry.grid(column=0, row=6, padx=2, pady=2)
 
 c2e2Var = tk.StringVar()
 c2e2Entry = ttk.Entry(frame3, width=5, textvariable=c2e2Var)
-c2e2Entry.grid(column=1, row=5, padx=2, pady=2)
+c2e2Entry.grid(column=1, row=6, padx=2, pady=2)
 
 c2e3Var = tk.StringVar()
 c2e3Entry = ttk.Entry(frame3, width=5, textvariable=c2e3Var)
-c2e3Entry.grid(column=2, row=5, padx=2, pady=2)
+c2e3Entry.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for Timing (Coupon 2)
 c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
-c2TimeLabel.grid(column=0, row=6, columnspan=3)
+c2TimeLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for timing (Coupon 2)
 c2t1Var = tk.StringVar()
 c2t1Entry = ttk.Entry(frame3, width=5, textvariable=c2t1Var)
-c2t1Entry.grid(column=0, row=7, padx=2, pady=2)
+c2t1Entry.grid(column=0, row=8, padx=2, pady=2)
 
 c2t2Var = tk.StringVar()
 c2t2Entry = ttk.Entry(frame3, width=5, textvariable=c2t2Var)
-c2t2Entry.grid(column=1, row=7, padx=2, pady=2)
+c2t2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c2t3Var = tk.StringVar()
 c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
-c2t3Entry.grid(column=2, row=7, padx=2, pady=2)
+c2t3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 ## Frame 4 (Coupon 3 frame)
 frame4 = ttk.Frame(win)
@@ -718,64 +760,77 @@ frame4.grid(column=3, row=0, padx=5)
 coupon3Label = ttk.Label(frame4, text="Coupon 3")
 coupon3Label.grid(column=0, row=0, columnspan=3)
 
+# Value
+value3Label = ttk.Label(frame4, text="Value")
+value3Label.grid(column=0, row=1)
+
+value3Var = tk.StringVar()
+value3 = ttk.Combobox(frame4, width=8, textvariable=value3Var)
+value3["values"] = valueDictKey
+value3.grid(column=1, row=1, pady=2, columnspan=2)
+value3Var.trace("w", update)
+
+# Design
+design3Label = ttk.Label(frame4, text="Design")
+design3Label.grid(column=0, row=2)
+
 coupon3ImgVar = tk.StringVar()
-coupon3Img = ttk.Combobox(frame4, width=15, textvariable=coupon3ImgVar)
-coupon3Img["values"] = valueDictKey
-coupon3Img.grid(column=0, row=1, columnspan=3)
+coupon3Img = ttk.Entry(frame4, width=11, textvariable=coupon3ImgVar)
+coupon3Img.grid(column=1, row=2, pady=2, columnspan=2)
 
 # Qty
 qty3Label = ttk.Label(frame4, text="Qty")
-qty3Label.grid(column=0, row=2)
+qty3Label.grid(column=0, row=3)
 
 # Entry for Qty
 qty3EntryVar = tk.StringVar()
 qty3 = ttk.Entry(frame4, width=11, textvariable=qty3EntryVar)
 qty3.insert(0, "0")
-qty3.grid(column=1, row=2, padx=2, pady=2, columnspan=2)
+qty3.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq3Label = ttk.Label(frame4, text="No. MameQ")
-mmq3Label.grid(column=0, row=3, columnspan=2)
+mmq3Label.grid(column=0, row=4, columnspan=2)
 
 # Entry for MMQ
 mmq3EntryVar = tk.StringVar()
 mmq3 = ttk.Entry(frame4, width=4, textvariable=mmq3EntryVar)
 mmq3.insert(0, "0")
-mmq3.grid(column=2, row=3, padx=2, pady=2)
+mmq3.grid(column=2, row=4, padx=2, pady=2)
 
 # Label for EID (Coupon 3)
 c3EIDLabel = ttk.Label(frame4, text="EID")
-c3EIDLabel.grid(column=0, row=4, columnspan=3)
+c3EIDLabel.grid(column=0, row=5, columnspan=3)
 
 # Entry for EID (Coupon 3)
 c3e1Var = tk.StringVar()
 c3e1Entry = ttk.Entry(frame4, width=5, textvariable=c3e1Var)
-c3e1Entry.grid(column=0, row=5, padx=2, pady=2)
+c3e1Entry.grid(column=0, row=6, padx=2, pady=2)
 
 c3e2Var = tk.StringVar()
 c3e2Entry = ttk.Entry(frame4, width=5, textvariable=c3e2Var)
-c3e2Entry.grid(column=1, row=5, padx=2, pady=2)
+c3e2Entry.grid(column=1, row=6, padx=2, pady=2)
 
 c3e3Var = tk.StringVar()
 c3e3Entry = ttk.Entry(frame4, width=5, textvariable=c3e3Var)
-c3e3Entry.grid(column=2, row=5, padx=2, pady=2)
+c3e3Entry.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for Timing (Coupon 3)
 c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
-c3TimeLabel.grid(column=0, row=6, columnspan=3)
+c3TimeLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for timing (Coupon 3)
 c3t1Var = tk.StringVar()
 c3t1Entry = ttk.Entry(frame4, width=5, textvariable=c3t1Var)
-c3t1Entry.grid(column=0, row=7)
+c3t1Entry.grid(column=0, row=8)
 
 c3t2Var = tk.StringVar()
 c3t2Entry = ttk.Entry(frame4, width=5, textvariable=c3t2Var)
-c3t2Entry.grid(column=1, row=7, padx=2, pady=2)
+c3t2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c3t3Var = tk.StringVar()
 c3t3Entry = ttk.Entry(frame4, width=5, textvariable=c3t3Var)
-c3t3Entry.grid(column=2, row=7, padx=2, pady=2)
+c3t3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 ## Frame 5 (Buttons frame)
 frame5 = ttk.Frame(win)
