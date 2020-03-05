@@ -290,12 +290,15 @@ def HTML(x):
     html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
     html.write('<tr>\n')
     if len(flavorText) and len(date) != 0:
-        html.write('    <td width="328" style="padding-left: 30px;">\n')
+        if len(x) == 1:
+            html.write('    <td width="654" style="padding-left: 30px;">\n')
+        else:
+            html.write('    <td width="328" style="padding-left: 30px;">\n')
         html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
         html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
         html.write('    </td>\n')
     for i in range(len(x)):
-        html.write('    <td width="326" align="center" style="padding-right: 15px">\n')
+        html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
         html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + valueDict[x[i]] + '" width="100%" alt=""></a>\n')
         html.write('    </td>\n')
     html.write('</tr>\n')
@@ -341,6 +344,10 @@ def HTML(x):
     html.write('        </div>\n')
     html.write('    </div>\n')
     html.write('</div>\n')
+    html.write('\n')
+    html.write('\n')
+    html.write('\n')
+    html.write('\n')
     html.write('\n')
     html.write('\n')
     html.write('\n')
