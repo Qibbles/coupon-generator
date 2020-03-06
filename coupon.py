@@ -60,14 +60,18 @@ designs()
 
 ## Updating design entry box
 
-def update(*args):
+def update1(*args):
     coupon1Img.delete(first=0, last='end')
-    coupon2Img.delete(first=0, last='end')
-    coupon3Img.delete(first=0, last='end')
     if len(value1.get()) != 0:
         coupon1Img.insert(0, valueDict[value1Var.get()])
+
+def update2(*args):
+    coupon2Img.delete(first=0, last='end')
     if len(value2.get()) != 0:
         coupon2Img.insert(0, valueDict[value2Var.get()])
+
+def update3(*args):
+    coupon3Img.delete(first=0, last='end')
     if len(value3.get()) != 0:
         coupon3Img.insert(0, valueDict[value3Var.get()])
 
@@ -99,7 +103,7 @@ def generate():
     if len(noCoupon) >= 1:     
             flavorText = flavorTextEntryVar.get()
             date = dateEntryVar.get()
-            if coupon1ImgVar.get() not in valueDict:
+            if value1Var.get() not in valueDict:
                 worksheet.append_row([value1Var.get(),'', coupon1ImgVar.get()])
                 # valueDict[coupon1ImgVar.get()] = coupon1ImgVar.get()
             # Coupon 1 variables
@@ -116,7 +120,7 @@ def generate():
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
     if len(noCoupon) >= 2:
-        if coupon2ImgVar.get() not in valueDict:
+        if value2Var.get() not in valueDict:
             worksheet.append_row([value2Var.get(),'', coupon2ImgVar.get()])
             # valueDict[coupon2ImgVar.get()] = coupon2ImgVar.get()
         # Coupon 1 variables
@@ -133,7 +137,7 @@ def generate():
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
     if len(noCoupon) >= 3:
-        if coupon3ImgVar.get() not in valueDict:
+        if value3Var.get() not in valueDict:
             worksheet.append_row([value3Var.get(),'', coupon3ImgVar.get()])
             # valueDict[coupon3ImgVar.get()] = coupon3ImgVar.get()
         # Coupon 1 variables
@@ -153,7 +157,6 @@ def generate():
     HTML(noCoupon)
 
 def HTML(x):
-    print(x)
     html = open("Coupon_" + date + ".html", "w")
     ##### Desktop #####
     # CSS 
@@ -305,12 +308,17 @@ def HTML(x):
             html.write('    <td width="654" style="padding-left: 30px;">\n')
         else:
             html.write('    <td width="328" style="padding-left: 30px;">\n')
-        html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
+        if len(x) < 3:
+            html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
         html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
         html.write('    </td>\n')
     for i in range(len(x)):
-        html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
-        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
+        if len(x) < 3:
+            html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
+            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
+        else:
+            html.write('    <td>\n')
+            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
         html.write('    </td>\n')
     html.write('</tr>\n')
     html.write('</table>\n')
@@ -332,16 +340,29 @@ def HTML(x):
     html.write('                <li>Coupons may only be received during <u>Event Period</u>.</li>\n')
     html.write('                <li>Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
     value = []
-    if re.match("[0-9]\/[0-9]", value1Var.get()):
-        value.append[value1Var.get().split('/')]
-    if re.match("[0-9]\/[0-9", value2Var.get()):
-        value.append[value2Var.get().split('/')]
-    if re.match("[0-9]\/[0-9", value3Var.get()):
-        value.append[value3Var.get().split('/')]
+    altValue = []
+    if re.search("[0-9]/[0-9]", value1Var.get()):
+        value.append(value1Var.get().split('/'))
+        altValue.append("")
+    else:
+        altValue.append(value1Var.get())
+    if re.search("[0-9]/[0-9]", value2Var.get()):
+        value.append(value2Var.get().split('/'))
+        altValue.append("")
+    else:
+        altValue.append(value2Var.get())
+    if re.search("[0-9]/[0-9]", value3Var.get()):
+        value.append(value3Var.get().split('/'))
+        altValue.append("")
+    else:
+        altValue.append(value3Var.get())
     mmq = [mmq1EntryVar.get(), mmq2EntryVar.get(), mmq3EntryVar.get()]
     qty = [qty1EntryVar.get(), qty2EntryVar.get(), qty3EntryVar.get()]
     for i in range(len(x)):
-        html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+        if len(altValue[i]) == 0:
+            html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+        else:
+            html.write('            <li><b>' + altValue[i] + ' </b>.</li>\n')
         html.write('            <ul>\n')
         html.write('                <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
@@ -387,7 +408,7 @@ def HTML(x):
     html.write('    border-radius: 18px;\n')
     html.write('    border: 0px;\n')
     html.write('    color: #FFF;\n')
-    html.write('    font-size: 25px;\n')
+    html.write('    font-size: 13px;\n')
     html.write('    letter-spacing: 1px;\n')
     html.write('    padding: 7px 25px;\n')
     html.write('    text-align: center\n')
@@ -395,7 +416,7 @@ def HTML(x):
     html.write('\n')
     html.write('.cartcouponphrase {\n')
     html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
-    html.write('    font-size: 35px;\n')
+    html.write('    font-size: 25px;\n')
     html.write('    font-weight: 700;\n')
     html.write('    color: #333333;\n')
     html.write('    line-height: 27px;\n')
@@ -513,7 +534,10 @@ def HTML(x):
     html.write('    <tr>\n')
     html.write('        <td colspan="2" align="center" valign="top">\n')
     for i in range(len(x)):
-        html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="42%" style="margin: 0px 10px;"></a>\n')
+        if len(x) < 3:
+            html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="42%" style="margin: 0px 10px;"></a>\n')
+        else:
+            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
     html.write('        </td>\n')
     html.write('    </tr>\n')
     html.write('    <tr>\n')
@@ -537,7 +561,10 @@ def HTML(x):
     html.write('            <li>Coupons may only be received during <u>Event Period</u>.</li>\n')
     html.write('            <li>Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
     for i in range(len(x)):
-        html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+        if len(altValue[i]) == 0:
+            html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+        else:
+            html.write('            <li><b>' + altValue[i] + ' </b>.</li>\n')
         html.write('            <ul>\n')
         html.write('                <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
@@ -609,7 +636,7 @@ value1Var = tk.StringVar()
 value1 = ttk.Combobox(frame2, width=8, textvariable=value1Var)
 value1["values"] = valueDictKey
 value1.grid(column=1, row=1, pady=2, columnspan=2)
-value1Var.trace("w", update)
+value1Var.trace("w", update1)
 
 # Design
 design1Label = ttk.Label(frame2, text="Design")
@@ -689,7 +716,7 @@ value2Var = tk.StringVar()
 value2 = ttk.Combobox(frame3, width=8, textvariable=value2Var)
 value2["values"] = valueDictKey
 value2.grid(column=1, row=1, pady=2, columnspan=2)
-value2Var.trace("w", update)
+value2Var.trace("w", update2)
 
 # Design
 design2Label = ttk.Label(frame3, text="Design")
@@ -768,7 +795,7 @@ value3Var = tk.StringVar()
 value3 = ttk.Combobox(frame4, width=8, textvariable=value3Var)
 value3["values"] = valueDictKey
 value3.grid(column=1, row=1, pady=2, columnspan=2)
-value3Var.trace("w", update)
+value3Var.trace("w", update3)
 
 # Design
 design3Label = ttk.Label(frame4, text="Design")
