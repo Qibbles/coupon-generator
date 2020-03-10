@@ -60,18 +60,14 @@ designs()
 
 ## Updating design entry box
 
-def update1(*args):
+def update(*args):
     coupon1Img.delete(first=0, last='end')
+    coupon2Img.delete(first=0, last='end')
+    coupon3Img.delete(first=0, last='end')
     if len(value1.get()) != 0:
         coupon1Img.insert(0, valueDict[value1Var.get()])
-
-def update2(*args):
-    coupon2Img.delete(first=0, last='end')
     if len(value2.get()) != 0:
         coupon2Img.insert(0, valueDict[value2Var.get()])
-
-def update3(*args):
-    coupon3Img.delete(first=0, last='end')
     if len(value3.get()) != 0:
         coupon3Img.insert(0, valueDict[value3Var.get()])
 
@@ -103,9 +99,8 @@ def generate():
     if len(noCoupon) >= 1:     
             flavorText = flavorTextEntryVar.get()
             date = dateEntryVar.get()
-            if value1Var.get() not in valueDict:
+            if coupon1ImgVar.get() not in valueDict:
                 worksheet.append_row([value1Var.get(),'', coupon1ImgVar.get()])
-                # valueDict[coupon1ImgVar.get()] = coupon1ImgVar.get()
             # Coupon 1 variables
             if len(c1e1Var.get()) == 0:
                 messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -120,9 +115,8 @@ def generate():
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
     if len(noCoupon) >= 2:
-        if value2Var.get() not in valueDict:
+        if coupon2ImgVar.get() not in valueDict:
             worksheet.append_row([value2Var.get(),'', coupon2ImgVar.get()])
-            # valueDict[coupon2ImgVar.get()] = coupon2ImgVar.get()
         # Coupon 1 variables
         if len(c2e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -137,9 +131,8 @@ def generate():
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
     if len(noCoupon) >= 3:
-        if value3Var.get() not in valueDict:
+        if coupon3ImgVar.get() not in valueDict:
             worksheet.append_row([value3Var.get(),'', coupon3ImgVar.get()])
-            # valueDict[coupon3ImgVar.get()] = coupon3ImgVar.get()
         # Coupon 1 variables
         if len(c3e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -289,15 +282,14 @@ def HTML(x):
             html.write('            var hours = new Array("' + str(timeList[2][0]) + '")\n')
         html.write('            break;\n')
     html.write('    }\n')
-    html.write('    if (hours.length == 1) {Util.EventApply(events[0]);}\n')
-    html.write('        else if (hours.length == 2) {\n')
-    html.write('           if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
-    html.write('            else if (currentHour >= hours[1]) {Util.EventApply(events[1]);}\n')
-    html.write('    }\n')
-    html.write('    else if (hours.length == 3) {\n')
-    html.write('        if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
-    html.write('            else if (currentHour >= hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
-    html.write('            else if (currentHour >= hours[2] ) {Util.EventApply(events[2]);}\n')
+    html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
+    html.write('        else if (hours.length = 2) {\n')
+    html.write('            else if (currentHour >=hours[1]) {Util.EventApply(events[1]);}\n')
+    html.write('        }\n')
+    html.write('        else if (hours.length = 3) {\n')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
+    html.write('                else if (currentHour >=hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
+    html.write('                else if (currentHour >=hours[2] ) {Util.EventApply(events[2]);}\n')
     html.write('    }\n')
     html.write('};\n')
     html.write('</script>\n')
@@ -309,17 +301,12 @@ def HTML(x):
             html.write('    <td width="654" style="padding-left: 30px;">\n')
         else:
             html.write('    <td width="328" style="padding-left: 30px;">\n')
-        if len(x) < 3:
-            html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
+        html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
         html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
         html.write('    </td>\n')
     for i in range(len(x)):
-        if len(x) < 3:
-            html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
-            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
-        else:
-            html.write('    <td>\n')
-            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
+        html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
+        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
         html.write('    </td>\n')
     html.write('</tr>\n')
     html.write('</table>\n')
@@ -363,7 +350,7 @@ def HTML(x):
         if len(altValue[i]) == 0:
             html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
         else:
-            html.write('            <li><b>' + altValue[i] + ' </b>.</li>\n')
+            html.write('            <li><b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
         html.write('                <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
@@ -409,7 +396,7 @@ def HTML(x):
     html.write('    border-radius: 18px;\n')
     html.write('    border: 0px;\n')
     html.write('    color: #FFF;\n')
-    html.write('    font-size: 13px;\n')
+    html.write('    font-size: 25px;\n')
     html.write('    letter-spacing: 1px;\n')
     html.write('    padding: 7px 25px;\n')
     html.write('    text-align: center\n')
@@ -417,7 +404,7 @@ def HTML(x):
     html.write('\n')
     html.write('.cartcouponphrase {\n')
     html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
-    html.write('    font-size: 25px;\n')
+    html.write('    font-size: 35px;\n')
     html.write('    font-weight: 700;\n')
     html.write('    color: #333333;\n')
     html.write('    line-height: 27px;\n')
@@ -512,40 +499,48 @@ def HTML(x):
             html.write('            var hours = new Array("' + str(timeList[2][0]) + '")\n')
         html.write('            break;\n')
     html.write('    }\n')
-    html.write('    if (hours.length == 1) {Util.EventApply(events[0]);}\n')
-    html.write('        else if (hours.length == 2) {\n')
-    html.write('           if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
-    html.write('            else if (currentHour >= hours[1]) {Util.EventApply(events[1]);}\n')
-    html.write('    }\n')
-    html.write('    else if (hours.length == 3) {\n')
-    html.write('        if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
-    html.write('            else if (currentHour >= hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
-    html.write('            else if (currentHour >= hours[2] ) {Util.EventApply(events[2]);}\n')
+    html.write('    if (hours.length = 1) {Util.EventApply(events[0]);}\n')
+    html.write('        else if (hours.length = 2) {\n')
+    html.write('            else if (currentHour >=hours[1]) {Util.EventApply(events[1]);}\n')
+    html.write('        }\n')
+    html.write('        else if (hours.length = 3) {\n')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
+    html.write('                else if (currentHour >=hours[1] && currentHour < hours[2]) {Util.EventApply(events[1]);}\n')
+    html.write('                else if (currentHour >=hours[2] ) {Util.EventApply(events[2]);}\n')
     html.write('    }\n')
     html.write('};\n')
     html.write('</script>\n')
     html.write('\n')
-    html.write('<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
-    if len(flavorText) and len(date) != 0:
-        html.write('    <tr>\n')
-        html.write('        <td align="center" style="padding: 20px 0px;" width="50%" >\n')
-        html.write('        <span class="cartcoupondate">' + date + '</span></td>\n')
-        html.write('        <td width="50%" valign="middle" align="center">\n')
-        html.write('            <span class="cartcouponphrase">' + flavorText + '</span></td>\n')
+    if len(x) == 3:
+        html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
+        html.write('    <tr>')
+        html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
-    html.write('    <tr>\n')
-    html.write('        <td colspan="2" align="center" valign="top">\n')
-    for i in range(len(x)):
-        if len(x) < 3:
+        html.write('    <tr>\n')
+        for i in range(len(x)-1):
+            html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
+        html.write('    </tr>\n')
+        html.write('</table>\n')
+    else:
+        html.write('<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
+        if len(flavorText) and len(date) != 0:
+            html.write('    <tr>\n')
+            html.write('        <td align="center" style="padding: 20px 0px;" width="50%" >\n')
+            html.write('        <span class="cartcoupondate">' + date + '</span></td>\n')
+            html.write('        <td width="50%" valign="middle" align="center">\n')
+            html.write('            <span class="cartcouponphrase">' + flavorText + '</span></td>\n')
+            html.write('    </tr>\n')
+        html.write('    <tr>\n')
+        html.write('        <td colspan="2" align="center" valign="top">\n')
+        for i in range(len(x)):
             html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="42%" style="margin: 0px 10px;"></a>\n')
-        else:
-            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" alt=""></a>\n')
-    html.write('        </td>\n')
-    html.write('    </tr>\n')
-    html.write('    <tr>\n')
-    html.write('        <td colspan="3" align="center">&nbsp;</td>\n')
-    html.write('    </tr>\n')
-    html.write('</table>\n')
+        html.write('        </td>\n')
+        html.write('    </tr>\n')
+        html.write('    <tr>\n')
+        html.write('        <td colspan="3" align="center">&nbsp;</td>\n')
+        html.write('    </tr>\n')
+        html.write('</table>\n')
     html.write('<table width="100%" border="0">\n')
     html.write('    <tr>\n')
     html.write('        <td><img src="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/12/buttons_01.png" width="100%" onclick="document.getElementById(\'tnc\').style.display=\'block\'"></td>\n')
@@ -566,7 +561,7 @@ def HTML(x):
         if len(altValue[i]) == 0:
             html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
         else:
-            html.write('            <li><b>' + altValue[i] + ' </b>.</li>\n')
+            html.write('            <li><b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
         html.write('                <li>Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
@@ -638,7 +633,7 @@ value1Var = tk.StringVar()
 value1 = ttk.Combobox(frame2, width=8, textvariable=value1Var)
 value1["values"] = valueDictKey
 value1.grid(column=1, row=1, pady=2, columnspan=2)
-value1Var.trace("w", update1)
+value1Var.trace("w", update)
 
 # Design
 design1Label = ttk.Label(frame2, text="Design")
@@ -718,7 +713,7 @@ value2Var = tk.StringVar()
 value2 = ttk.Combobox(frame3, width=8, textvariable=value2Var)
 value2["values"] = valueDictKey
 value2.grid(column=1, row=1, pady=2, columnspan=2)
-value2Var.trace("w", update2)
+value2Var.trace("w", update)
 
 # Design
 design2Label = ttk.Label(frame3, text="Design")
@@ -797,7 +792,7 @@ value3Var = tk.StringVar()
 value3 = ttk.Combobox(frame4, width=8, textvariable=value3Var)
 value3["values"] = valueDictKey
 value3.grid(column=1, row=1, pady=2, columnspan=2)
-value3Var.trace("w", update3)
+value3Var.trace("w", update)
 
 # Design
 design3Label = ttk.Label(frame4, text="Design")
@@ -870,7 +865,7 @@ generateButton = ttk.Button(frame5, text="Generate", command=generate)
 generateButton.grid(column=0, row=2, columnspan=4, sticky="NSEW")
 
 ## Labels
-helpMsg = "WIP"
+helpMsg = "Fill in details and HTML for coupons and TnCs will be auto-generated. For event days, please key in a description for the coupon value, and paste the design in manually. Please report bugs to Gregory."
 helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
 
