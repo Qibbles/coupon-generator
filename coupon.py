@@ -58,8 +58,39 @@ def designs():
 
 designs()
 
-## Updating design entry box
+# def event(*args):
+#     print(self.eventBoxVar)
+#     # if eventBoxVar.get() == 1:
+#     #     flavorLabel.destroy()
+#     #     # flavorTextEntry.destroy()
 
+#     #     desktopFlavorLabel = ttk.Label(frame1, text="Desktop Design")
+#     #     desktopFlavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
+
+#     #     desktopFlavorDesignVar = tk.StringVar()
+#     #     desktopFlavorDesign = ttk.Entry(frame1, width=20, textvariable=desktopFlavorDesignVar)
+#     #     desktopFlavorDesign.grid(column=1, row=2, pady=2, sticky="nw")
+
+#     #     mobileFlavorLabel = ttk.Label(frame1, text="Mobile Design")
+#     #     mobileFlavorLabel.grid(column=0, row=3, padx=10, sticky="nw")
+
+#     #     mobileFlavorDesignVar = tk.StringVar()
+#     #     mobileFlavorDesign = ttk.Entry(frame1, width=20, textvariable=mobileFlavorDesignVar)
+#     #     mobileFlavorDesign.grid(column=1, row=3, pady=2, sticky="nw")
+#     # else:
+#     #     # desktopFlavorLabel.destroy()
+#     #     # desktopFlaborDesign.destroy()
+#     #     # mobileFlavourLabel.destroy()
+#     #     # mobileFlavorDesign.destroy()
+
+#     #     flavorLabel = ttk.Label(frame1, text="Flavor Text")
+#     #     flavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
+
+#     #     flavorTextEntryVar = tk.StringVar()
+#     #     flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
+#     #     flavorTextEntry.grid(column=1, row=2, pady=2, sticky="nw")
+
+## Updating design entry box
 def update(*args):
     coupon1Img.delete(first=0, last='end')
     coupon2Img.delete(first=0, last='end')
@@ -294,23 +325,49 @@ def HTML(x):
     html.write('};\n')
     html.write('</script>\n')
     html.write('\n')
-    html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
-    html.write('<tr>\n')
-    if len(flavorText) and len(date) != 0:
-        if len(x) == 1:
-            html.write('    <td width="654" style="padding-left: 30px;">\n')
-        else:
-            html.write('    <td width="328" style="padding-left: 30px;">\n')
-        html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
-        html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
-        html.write('    </td>\n')
-    for i in range(len(x)):
-        html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
-        html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
-        html.write('    </td>\n')
-    html.write('</tr>\n')
-    html.write('</table>\n')
-    html.write('\n')
+    if len(x) == 3:
+
+        # <table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">
+        #     <tr>
+        #         <td bgcolor="#ffe7e3">
+        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_01.jpg" width="470" height="350" alt=""></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_02.jpg" width="333" height="350" alt=""></a></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('wFgVh_g_1_x_g_1_bh0_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_03.jpg" width="304" height="350" alt=""></a></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('XK8UiONnvpI_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_04.jpg" width="343" height="350" alt=""></a></td>
+        #         <td bgcolor="#ffe7e3">
+        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_05.jpg" width="470" height="350" alt=""></td>
+        #     </tr>
+        # </table>	
+
+        html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
+        html.write('    <tr>')
+        html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
+        html.write('    </tr>\n')
+        html.write('    <tr>\n')
+        for i in range(len(x)-1):
+            html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
+        html.write('    </tr>\n')
+        html.write('</table>\n')
+        html.write('\n')
+    else:
+        html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
+        html.write('<tr>\n')
+        if len(flavorText) and len(date) != 0:
+            if len(x) == 1:
+                html.write('    <td width="654" style="padding-left: 30px;">\n')
+            else:
+                html.write('    <td width="328" style="padding-left: 30px;">\n')
+            html.write('        <span class="cartcoupondate">' + date + '</span><br><br>\n') ########## Flavor date goes here ##########
+            html.write('        <span class="cartcouponphrase">' + flavorText + '</span>\n') ########## Flavor text goes here ##########
+            html.write('    </td>\n')
+        for i in range(len(x)):
+            html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
+            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
+            html.write('    </td>\n')
+        html.write('</tr>\n')
+        html.write('</table>\n')
+        html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
     html.write('    <div>\n')
     html.write('        <button class="button buttonCpn" onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</button></a>\n')
@@ -604,19 +661,37 @@ nb.add(guide, text="Help")
 frame1 = ttk.Frame(win)
 frame1.grid(column=0, row=0, padx=5)
 
+# eventBoxVar = tk.IntVar()
+# eventBox = ttk.Checkbutton(frame1, text="Event", variable=eventBoxVar, command=event)
+# eventBox.grid(column=0, row=0, padx=10, sticky="w")
+
 dateLabel = ttk.Label(frame1, text="Date")
-dateLabel.grid(column=0, row=0, padx=10, sticky="nw")
+dateLabel.grid(column=0, row=1, padx=10, sticky="nw")
 
 dateEntryVar = tk.StringVar()
 dateEntry = ttk.Entry(frame1, width=20, textvariable=dateEntryVar)
-dateEntry.grid(column=1, row=0, pady=2, sticky="nw")
+dateEntry.grid(column=1, row=1, pady=2, sticky="nw")
 
 flavorLabel = ttk.Label(frame1, text="Flavor Text")
-flavorLabel.grid(column=0, row=1, padx=10, sticky="nw")
+flavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
 
 flavorTextEntryVar = tk.StringVar()
 flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
-flavorTextEntry.grid(column=1, row=1, pady=2, sticky="nw")
+flavorTextEntry.grid(column=1, row=2, pady=2, sticky="nw")
+
+desktopFlavorLabel = ttk.Label(frame1, text="Desktop Design")
+desktopFlavorLabel.grid(column=0, row=3, padx=10, sticky="nw")
+
+desktopFlavorDesignVar = tk.StringVar()
+desktopFlavorDesign = ttk.Entry(frame1, width=20, textvariable=desktopFlavorDesignVar)
+desktopFlavorDesign.grid(column=1, row=3, pady=2, sticky="nw")
+
+mobileFlavorLabel = ttk.Label(frame1, text="Mobile Design")
+mobileFlavorLabel.grid(column=0, row=4, padx=10, sticky="nw")
+
+mobileFlavorDesignVar = tk.StringVar()
+mobileFlavorDesign = ttk.Entry(frame1, width=20, textvariable=mobileFlavorDesignVar)
+mobileFlavorDesign.grid(column=1, row=4, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
 frame2 = ttk.Frame(win)
@@ -637,65 +712,75 @@ value1Var.trace("w", update)
 
 # Design
 design1Label = ttk.Label(frame2, text="Design")
-design1Label.grid(column=0, row=2)
+design1Label.grid(column=0, row=2, columnspan=3)
+
+desktopDesign1Label = ttk.Label(frame2, text="Desktop")
+desktopDesign1Label.grid(column=0, row=3)
+
+desktopCoupon1ImgVar = tk.StringVar()
+desktopCoupon1Img = ttk.Entry(frame2, width=11, textvariable=desktopCoupon1ImgVar)
+desktopCoupon1Img.grid(column=1, row=3, pady=2, columnspan=2)
+
+mobileDesign1Label = ttk.Label(frame2, text="Mobile")
+mobileDesign1Label.grid(column=0, row=4)
 
 coupon1ImgVar = tk.StringVar()
 coupon1Img = ttk.Entry(frame2, width=11, textvariable=coupon1ImgVar)
-coupon1Img.grid(column=1, row=2, pady=2, columnspan=2)
+coupon1Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty1Label = ttk.Label(frame2, text="Qty")
-qty1Label.grid(column=0, row=3)
+qty1Label.grid(column=0, row=5)
 
 # Entry for Qty
 qty1EntryVar = tk.StringVar()
 qty1 = ttk.Entry(frame2, width=11, textvariable=qty1EntryVar)
 qty1.insert(0, "0")
-qty1.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
+qty1.grid(column=1, row=5, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq1Label = ttk.Label(frame2, text="No. MameQ")
-mmq1Label.grid(column=0, row=4, columnspan=2)
+mmq1Label.grid(column=0, row=6, columnspan=2)
 
 # Entry for MMQ
 mmq1EntryVar = tk.StringVar()
 mmq1 = ttk.Entry(frame2, width=4, textvariable=mmq1EntryVar)
 mmq1.insert(0, "0")
-mmq1.grid(column=2, row=4, padx=2, pady=2)
+mmq1.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for EID (Coupon 1)
 c1EIDLabel = ttk.Label(frame2, text="EID")
-c1EIDLabel.grid(column=0, row=5, columnspan=3)
+c1EIDLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for EID (Coupon 1)
 c1e1Var = tk.StringVar()
 c1e1Entry = ttk.Entry(frame2, width=5, textvariable=c1e1Var)
-c1e1Entry.grid(column=0, row=6, padx=2, pady=2)
+c1e1Entry.grid(column=0, row=8, padx=2, pady=2)
 
 c1e2Var = tk.StringVar()
 c1e2Entry = ttk.Entry(frame2, width=5, textvariable=c1e2Var)
-c1e2Entry.grid(column=1, row=6, padx=2, pady=2)
+c1e2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c1e3Var = tk.StringVar()
 c1e3Entry = ttk.Entry(frame2, width=5, textvariable=c1e3Var)
-c1e3Entry.grid(column=2, row=6, padx=2, pady=2)
+c1e3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 # Label for Timing (Coupon 1)
 c1TimeLabel = ttk.Label(frame2, text="Hour (24hr Format)")
-c1TimeLabel.grid(column=0, row=7, columnspan=3)
+c1TimeLabel.grid(column=0, row=9, columnspan=3)
 
 # Entry for timing (Coupon 1)
 c1t1Var = tk.StringVar()
 c1t1Entry = ttk.Entry(frame2, width=5, textvariable=c1t1Var)
-c1t1Entry.grid(column=0, row=8, padx=2, pady=2)
+c1t1Entry.grid(column=0, row=10, padx=2, pady=2)
 
 c1t2Var = tk.StringVar()
 c1t2Entry = ttk.Entry(frame2, width=5, textvariable=c1t2Var)
-c1t2Entry.grid(column=1, row=8, padx=2, pady=2)
+c1t2Entry.grid(column=1, row=10, padx=2, pady=2)
 
 c1t3Var = tk.StringVar()
 c1t3Entry = ttk.Entry(frame2, width=5, textvariable=c1t3Var)
-c1t3Entry.grid(column=2, row=8, padx=2, pady=2)
+c1t3Entry.grid(column=2, row=10, padx=2, pady=2)
 
 ## Frame 3 (Coupon 2 frame)
 frame3 = ttk.Frame(win)
@@ -717,65 +802,75 @@ value2Var.trace("w", update)
 
 # Design
 design2Label = ttk.Label(frame3, text="Design")
-design2Label.grid(column=0, row=2)
+design2Label.grid(column=0, row=2, columnspan=3)
+
+desktopDesign2Label = ttk.Label(frame3, text="Desktop")
+desktopDesign2Label.grid(column=0, row=3)
+
+desktopCoupon2ImgVar = tk.StringVar()
+desktopCoupon2Img = ttk.Entry(frame3, width=11, textvariable=desktopCoupon2ImgVar)
+desktopCoupon2Img.grid(column=1, row=3, pady=2, columnspan=2)
+
+mobileDesign2Label = ttk.Label(frame3, text="Mobile")
+mobileDesign2Label.grid(column=0, row=4)
 
 coupon2ImgVar = tk.StringVar()
 coupon2Img = ttk.Entry(frame3, width=11, textvariable=coupon2ImgVar)
-coupon2Img.grid(column=1, row=2, pady=2, columnspan=2)
+coupon2Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty2Label = ttk.Label(frame3, text="Qty")
-qty2Label.grid(column=0, row=3)
+qty2Label.grid(column=0, row=5)
 
 # Entry for Qty
 qty2EntryVar = tk.StringVar()
 qty2 = ttk.Entry(frame3, width=11, textvariable=qty2EntryVar)
 qty2.insert(0, "0")
-qty2.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
+qty2.grid(column=1, row=5, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq2Label = ttk.Label(frame3, text="No. MameQ")
-mmq2Label.grid(column=0, row=4, columnspan=2)
+mmq2Label.grid(column=0, row=6, columnspan=2)
 
 # Entry for MMQ
 mmq2EntryVar = tk.StringVar()
 mmq2 = ttk.Entry(frame3, width=4, textvariable=mmq2EntryVar)
 mmq2.insert(0, "0")
-mmq2.grid(column=2, row=4, padx=2, pady=2)
+mmq2.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for EID (Coupon 2)
 c2EIDLabel = ttk.Label(frame3, text="EID")
-c2EIDLabel.grid(column=0, row=5, columnspan=3)
+c2EIDLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for EID (Coupon 2)
 c2e1Var = tk.StringVar()
 c2e1Entry = ttk.Entry(frame3, width=5, textvariable=c2e1Var)
-c2e1Entry.grid(column=0, row=6, padx=2, pady=2)
+c2e1Entry.grid(column=0, row=8, padx=2, pady=2)
 
 c2e2Var = tk.StringVar()
 c2e2Entry = ttk.Entry(frame3, width=5, textvariable=c2e2Var)
-c2e2Entry.grid(column=1, row=6, padx=2, pady=2)
+c2e2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c2e3Var = tk.StringVar()
 c2e3Entry = ttk.Entry(frame3, width=5, textvariable=c2e3Var)
-c2e3Entry.grid(column=2, row=6, padx=2, pady=2)
+c2e3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 # Label for Timing (Coupon 2)
 c2TimeLabel = ttk.Label(frame3, text="Hour (24hr Format)")
-c2TimeLabel.grid(column=0, row=7, columnspan=3)
+c2TimeLabel.grid(column=0, row=9, columnspan=3)
 
 # Entry for timing (Coupon 2)
 c2t1Var = tk.StringVar()
 c2t1Entry = ttk.Entry(frame3, width=5, textvariable=c2t1Var)
-c2t1Entry.grid(column=0, row=8, padx=2, pady=2)
+c2t1Entry.grid(column=0, row=10, padx=2, pady=2)
 
 c2t2Var = tk.StringVar()
 c2t2Entry = ttk.Entry(frame3, width=5, textvariable=c2t2Var)
-c2t2Entry.grid(column=1, row=8, padx=2, pady=2)
+c2t2Entry.grid(column=1, row=10, padx=2, pady=2)
 
 c2t3Var = tk.StringVar()
 c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
-c2t3Entry.grid(column=2, row=8, padx=2, pady=2)
+c2t3Entry.grid(column=2, row=10, padx=2, pady=2)
 
 ## Frame 4 (Coupon 3 frame)
 frame4 = ttk.Frame(win)
@@ -796,65 +891,75 @@ value3Var.trace("w", update)
 
 # Design
 design3Label = ttk.Label(frame4, text="Design")
-design3Label.grid(column=0, row=2)
+design3Label.grid(column=0, row=2, columnspan=3)
+
+desktopDesign3Label = ttk.Label(frame4, text="Desktop")
+desktopDesign3Label.grid(column=0, row=3)
+
+desktopCoupon3ImgVar = tk.StringVar()
+desktopCoupon3Img = ttk.Entry(frame4, width=11, textvariable=desktopCoupon3ImgVar)
+desktopCoupon3Img.grid(column=1, row=3, pady=2, columnspan=2)
+
+mobileDesign3Label = ttk.Label(frame4, text="Mobile")
+mobileDesign3Label.grid(column=0, row=4)
 
 coupon3ImgVar = tk.StringVar()
 coupon3Img = ttk.Entry(frame4, width=11, textvariable=coupon3ImgVar)
-coupon3Img.grid(column=1, row=2, pady=2, columnspan=2)
+coupon3Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty3Label = ttk.Label(frame4, text="Qty")
-qty3Label.grid(column=0, row=3)
+qty3Label.grid(column=0, row=5)
 
 # Entry for Qty
 qty3EntryVar = tk.StringVar()
 qty3 = ttk.Entry(frame4, width=11, textvariable=qty3EntryVar)
 qty3.insert(0, "0")
-qty3.grid(column=1, row=3, padx=2, pady=2, columnspan=2)
+qty3.grid(column=1, row=5, padx=2, pady=2, columnspan=2)
 
 # MameQ
 mmq3Label = ttk.Label(frame4, text="No. MameQ")
-mmq3Label.grid(column=0, row=4, columnspan=2)
+mmq3Label.grid(column=0, row=6, columnspan=2)
 
 # Entry for MMQ
 mmq3EntryVar = tk.StringVar()
 mmq3 = ttk.Entry(frame4, width=4, textvariable=mmq3EntryVar)
 mmq3.insert(0, "0")
-mmq3.grid(column=2, row=4, padx=2, pady=2)
+mmq3.grid(column=2, row=6, padx=2, pady=2)
 
 # Label for EID (Coupon 3)
 c3EIDLabel = ttk.Label(frame4, text="EID")
-c3EIDLabel.grid(column=0, row=5, columnspan=3)
+c3EIDLabel.grid(column=0, row=7, columnspan=3)
 
 # Entry for EID (Coupon 3)
 c3e1Var = tk.StringVar()
 c3e1Entry = ttk.Entry(frame4, width=5, textvariable=c3e1Var)
-c3e1Entry.grid(column=0, row=6, padx=2, pady=2)
+c3e1Entry.grid(column=0, row=8, padx=2, pady=2)
 
 c3e2Var = tk.StringVar()
 c3e2Entry = ttk.Entry(frame4, width=5, textvariable=c3e2Var)
-c3e2Entry.grid(column=1, row=6, padx=2, pady=2)
+c3e2Entry.grid(column=1, row=8, padx=2, pady=2)
 
 c3e3Var = tk.StringVar()
 c3e3Entry = ttk.Entry(frame4, width=5, textvariable=c3e3Var)
-c3e3Entry.grid(column=2, row=6, padx=2, pady=2)
+c3e3Entry.grid(column=2, row=8, padx=2, pady=2)
 
 # Label for Timing (Coupon 3)
 c3TimeLabel = ttk.Label(frame4, text="Hour (24hr Format)")
-c3TimeLabel.grid(column=0, row=7, columnspan=3)
+c3TimeLabel.grid(column=0, row=9, columnspan=3)
 
 # Entry for timing (Coupon 3)
 c3t1Var = tk.StringVar()
 c3t1Entry = ttk.Entry(frame4, width=5, textvariable=c3t1Var)
-c3t1Entry.grid(column=0, row=8)
+c3t1Entry.grid(column=0, row=10)
 
 c3t2Var = tk.StringVar()
 c3t2Entry = ttk.Entry(frame4, width=5, textvariable=c3t2Var)
-c3t2Entry.grid(column=1, row=8, padx=2, pady=2)
+c3t2Entry.grid(column=1, row=10, padx=2, pady=2)
 
 c3t3Var = tk.StringVar()
 c3t3Entry = ttk.Entry(frame4, width=5, textvariable=c3t3Var)
-c3t3Entry.grid(column=2, row=8, padx=2, pady=2)
+c3t3Entry.grid(column=2, row=10, padx=2, pady=2)
 
 ## Frame 5 (Buttons frame)
 frame5 = ttk.Frame(win)
