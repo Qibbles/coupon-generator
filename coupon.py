@@ -140,12 +140,12 @@ def generate():
             noCoupon.append(desktopCoupon2ImgVar.get())   
         if len(desktopCoupon3ImgVar.get()) != 0:
             noCoupon.append(desktopCoupon3ImgVar.get())
-
+    print(len(noCoupon))
     if len(noCoupon) == 1:     
             flavorText = flavorTextEntryVar.get()
             date = dateEntryVar.get()
-            if coupon1ImgVar.get() not in valueDict:
-                worksheet.append_row([value1Var.get(),'', coupon1ImgVar.get()])
+            if value1Var.get() not in valueDict.keys():
+                worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
             # Coupon 1 variables
             if len(c1e1Var.get()) == 0:
                 messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -159,9 +159,11 @@ def generate():
                 if len(c1e3Var.get()) >= 1:
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
-    if len(noCoupon) >= 2:
-        if coupon2ImgVar.get() not in valueDict:
-            worksheet.append_row([value2Var.get(),'', coupon2ImgVar.get()])
+    if len(noCoupon) == 2:
+        if value1Var.get() not in valueDict.keys():
+            worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
+        if value2Var.get() not in valueDict.keys():
+            worksheet.append_row([value2Var.get(),'', desktopCoupon2ImgVar.get(), mobileCoupon2ImgVar.get()])
         # Coupon 1 variables
         if len(c2e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
@@ -176,8 +178,12 @@ def generate():
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
     if len(noCoupon) >= 3:
-        if coupon3ImgVar.get() not in valueDict:
-            worksheet.append_row([value3Var.get(),'', coupon3ImgVar.get()])
+        if value1Var.get() not in valueDict.keys():
+            worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
+        if value2Var.get() not in valueDict.keys():
+            worksheet.append_row([value2Var.get(),'', desktopCoupon2ImgVar.get(), mobileCoupon2ImgVar.get()])
+        if value3Var.get() not in valueDict.keys():
+            worksheet.append_row([value3Var.get(),'', desktopCoupon3ImgVar.get(), mobileCoupon3ImgVar.get()])
         # Coupon 1 variables
         if len(c3e1Var.get()) == 0:
             messagebox.showinfo("Error", "You require at least 1 EID!")
