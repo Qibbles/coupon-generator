@@ -2,6 +2,7 @@ import re
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from collections import defaultdict
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -41,22 +42,29 @@ worksheet = sheet.worksheet("Coupon Summary")
 def designs():
     global valueDict
     global valueDictKey
-    valueDict = {}
+    valueDict = defaultdict(list) # Initialize collections dictionary of list
     valueDictKey = []
     designList = []
 
-    for i in range(len(worksheet.col_values(1))):
-        designList.append(worksheet.cell(i+1, 3).value)
-    del designList[0:2]
-# combine 2 for loop?
-    for i in range(len(designList)):
-        if designList[i] != "":
-            valueDict[worksheet.cell(i+3, 1).value] = designList[i]
-            
-    for each in valueDict:
+    # for i in range(len(worksheet.col_values(1))):
+    #     designList.append(worksheet.cell(i+1, 3).value)
+    # del designList[0:2]
+
+    # for i in range(len(designList)):
+    #     if designList[i] != "":
+    #         valueDict[worksheet.cell(i+3, 1).value] = designList[i]
+
+    for i in range(len(worksheet.col_values(1)) - 3):
+        if len(worksheet.cell(i+3, 3).value) != 0: # Check if desktop design exists
+            value = worksheet.cell(i+3,1).value
+            valueDict[value].append(worksheet.cell(i+3,3).value) # Append desktop design URL to dictionary list
+            valueDict[value].append(worksheet.cell(i+3,4).value) # Append mobile design URL to dictionary list
+     
+    for each in valueDict.keys():
         valueDictKey.append(each)
 
-designs()
+if __name__ == "__main__":
+    designs()
 
 # def event(*args):
 #     print(self.eventBoxVar)
@@ -92,15 +100,21 @@ designs()
 
 ## Updating design entry box
 def update(*args):
-    coupon1Img.delete(first=0, last='end')
-    coupon2Img.delete(first=0, last='end')
-    coupon3Img.delete(first=0, last='end')
+    desktopCoupon1Img.delete(first=0, last='end')
+    desktopCoupon2Img.delete(first=0, last='end')
+    desktopCoupon3Img.delete(first=0, last='end')
+    mobileCoupon1Img.delete(first=0, last='end')
+    mobileCoupon2Img.delete(first=0, last='end')
+    mobileCoupon3Img.delete(first=0, last='end')
     if len(value1.get()) != 0:
-        coupon1Img.insert(0, valueDict[value1Var.get()])
+        desktopCoupon1Img.insert(0, valueDict[value1Var.get()][0])
+        mobileCoupon1Img.insert(0, valueDict[value1Var.get()][1])
     if len(value2.get()) != 0:
-        coupon2Img.insert(0, valueDict[value2Var.get()])
+        desktopCoupon2Img.insert(0, valueDict[value2Var.get()][0])
+        mobileCoupon2Img.insert(0, valueDict[value2Var.get()][1])
     if len(value3.get()) != 0:
-        coupon3Img.insert(0, valueDict[value3Var.get()])
+        desktopCoupon3Img.insert(0, valueDict[value3Var.get()][0])
+        mobileCoupon3Img.insert(0, valueDict[value3Var.get()][1])
 
 ## Generating HTML
 def generate():
@@ -117,17 +131,17 @@ def generate():
     coupon2Dict = {}
     coupon3Dict = {}
 
-    if len(coupon1ImgVar.get()) == 0:
+    if len(dekstopCoupon1ImgVar.get()) == 0:
         messagebox.showinfo("Oops!","At least 1 Coupon image is required!")
     else:
-        if len(coupon1ImgVar.get()) != 0: 
-            noCoupon.append(coupon1ImgVar.get())
-        if len(coupon2ImgVar.get()) != 0:
-            noCoupon.append(coupon2ImgVar.get())   
-        if len(coupon3ImgVar.get()) != 0:
-            noCoupon.append(coupon3ImgVar.get())
+        if len(desktopCoupon1ImgVar.get()) != 0: 
+            noCoupon.append(dekstopCoupon1ImgVar.get())
+        if len(desktopCoupon2ImgVar.get()) != 0:
+            noCoupon.append(desktopCoupon2ImgVar.get())   
+        if len(desktopCoupon3ImgVar.get()) != 0:
+            noCoupon.append(desktopCoupon3ImgVar.get())
 
-    if len(noCoupon) >= 1:     
+    if len(noCoupon) == 1:     
             flavorText = flavorTextEntryVar.get()
             date = dateEntryVar.get()
             if coupon1ImgVar.get() not in valueDict:
@@ -327,28 +341,28 @@ def HTML(x):
     html.write('\n')
     if len(x) == 3:
 
-        html.write('<table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">\n')
+        # <table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">
+        #     <tr>
+        #         <td bgcolor="#ffe7e3">
+        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_01.jpg" width="470" height="350" alt=""></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_02.jpg" width="333" height="350" alt=""></a></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('wFgVh_g_1_x_g_1_bh0_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_03.jpg" width="304" height="350" alt=""></a></td>
+        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('XK8UiONnvpI_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_04.jpg" width="343" height="350" alt=""></a></td>
+        #         <td bgcolor="#ffe7e3">
+        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_05.jpg" width="470" height="350" alt=""></td>
+        #     </tr>
+        # </table>	
+
+        html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
+        html.write('    <tr>')
+        html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
+        html.write('    </tr>\n')
         html.write('    <tr>\n')
-        html.write('        <td>\n')
-        html.write('        <img src="' + desktopFlavorDesignVar.get() + '" width="470" height="350" alt=""></td>\n')
-        html.write('        <td colspan="2"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] + '" width="333" height="350" alt=""></a></td>\n')
-        html.write('        <td colspan="2"><a href="javascript:eventApplyTime(2)"><img src="' + x[1] + '" width="304" height="350" alt=""></a></td>\n')
-        html.write('        <td colspan="2"><a href="javascript:eventApplyTime(3)"><img src="' + x[2] + '" width="343" height="350" alt=""></a></td>\n')
-        html.write('        <td>\n')
-                # <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_05.jpg" width="470" height="350" alt=""></td>
+        for i in range(len(x)-1):
+            html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('</table>\n')
-
-        # html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
-        # html.write('    <tr>')
-        # html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
-        # html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
-        # html.write('    </tr>\n')
-        # html.write('    <tr>\n')
-        # for i in range(len(x)-1):
-        #     html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
-        # html.write('    </tr>\n')
-        # html.write('</table>\n')
         html.write('\n')
     else:
         html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
@@ -571,7 +585,7 @@ def HTML(x):
     if len(x) == 3:
         html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
         html.write('    <tr>')
-        html.write('        <td width="50%"><img src="' + mobileFlavorDesignVar.get() + '" width="100%"></td>\n')
+        html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
         html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('    <tr>\n')
@@ -658,7 +672,7 @@ guide = ttk.Frame(nb)
 nb.add(guide, text="Help")
 
 ## Frame 1 (Flavor frame)
-frame1 = ttk.Frame(win)
+frame1 = tk.Frame(win)
 frame1.grid(column=0, row=0, padx=5)
 
 # eventBoxVar = tk.IntVar()
@@ -694,8 +708,8 @@ mobileFlavorDesign = ttk.Entry(frame1, width=20, textvariable=mobileFlavorDesign
 mobileFlavorDesign.grid(column=1, row=4, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
-frame2 = ttk.Frame(win)
-frame2.grid(column=1, row=0, padx=5)
+frame2 = tk.Frame(win, highlightbackground="black", highlightthickness=1, padx=2, pady=2)
+frame2.grid(column=1, row=0, padx=5, pady=5)
 
 coupon1Label = ttk.Label(frame2, text="Coupon 1")
 coupon1Label.grid(column=0, row=0, columnspan=3)
@@ -724,9 +738,9 @@ desktopCoupon1Img.grid(column=1, row=3, pady=2, columnspan=2)
 mobileDesign1Label = ttk.Label(frame2, text="Mobile")
 mobileDesign1Label.grid(column=0, row=4)
 
-coupon1ImgVar = tk.StringVar()
-coupon1Img = ttk.Entry(frame2, width=11, textvariable=coupon1ImgVar)
-coupon1Img.grid(column=1, row=4, pady=2, columnspan=2)
+mobileCoupon1ImgVar = tk.StringVar()
+mobileCoupon1Img = ttk.Entry(frame2, width=11, textvariable=mobileCoupon1ImgVar)
+mobileCoupon1Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty1Label = ttk.Label(frame2, text="Qty")
@@ -783,8 +797,8 @@ c1t3Entry = ttk.Entry(frame2, width=5, textvariable=c1t3Var)
 c1t3Entry.grid(column=2, row=10, padx=2, pady=2)
 
 ## Frame 3 (Coupon 2 frame)
-frame3 = ttk.Frame(win)
-frame3.grid(column=2, row=0, padx=5)
+frame3 = tk.Frame(win, highlightbackground="black", highlightthickness=1, padx=2, pady=2)
+frame3.grid(column=2, row=0, padx=5, pady=5)
 
 # Coupon 2 Label
 coupon2Label = ttk.Label(frame3, text="Coupon 2")
@@ -814,9 +828,9 @@ desktopCoupon2Img.grid(column=1, row=3, pady=2, columnspan=2)
 mobileDesign2Label = ttk.Label(frame3, text="Mobile")
 mobileDesign2Label.grid(column=0, row=4)
 
-coupon2ImgVar = tk.StringVar()
-coupon2Img = ttk.Entry(frame3, width=11, textvariable=coupon2ImgVar)
-coupon2Img.grid(column=1, row=4, pady=2, columnspan=2)
+mobileCoupon2ImgVar = tk.StringVar()
+mobileCoupon2Img = ttk.Entry(frame3, width=11, textvariable=mobileCoupon2ImgVar)
+mobileCoupon2Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty2Label = ttk.Label(frame3, text="Qty")
@@ -873,8 +887,8 @@ c2t3Entry = ttk.Entry(frame3, width=5, textvariable=c2t3Var)
 c2t3Entry.grid(column=2, row=10, padx=2, pady=2)
 
 ## Frame 4 (Coupon 3 frame)
-frame4 = ttk.Frame(win)
-frame4.grid(column=3, row=0, padx=5)
+frame4 = tk.Frame(win, highlightbackground="black", highlightthickness=1, padx=2, pady=2)
+frame4.grid(column=3, row=0, padx=5, pady=5)
 
 coupon3Label = ttk.Label(frame4, text="Coupon 3")
 coupon3Label.grid(column=0, row=0, columnspan=3)
@@ -903,9 +917,9 @@ desktopCoupon3Img.grid(column=1, row=3, pady=2, columnspan=2)
 mobileDesign3Label = ttk.Label(frame4, text="Mobile")
 mobileDesign3Label.grid(column=0, row=4)
 
-coupon3ImgVar = tk.StringVar()
-coupon3Img = ttk.Entry(frame4, width=11, textvariable=coupon3ImgVar)
-coupon3Img.grid(column=1, row=4, pady=2, columnspan=2)
+mobileCoupon3ImgVar = tk.StringVar()
+mobileCoupon3Img = ttk.Entry(frame4, width=11, textvariable=mobileCoupon3ImgVar)
+mobileCoupon3Img.grid(column=1, row=4, pady=2, columnspan=2)
 
 # Qty
 qty3Label = ttk.Label(frame4, text="Qty")
