@@ -159,7 +159,7 @@ def generate():
                 if len(c1e3Var.get()) >= 1:
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
-    if len(noCoupon) == 2:
+    elif len(noCoupon) == 2:
         if value1Var.get() not in valueDict.keys():
             worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
         if value2Var.get() not in valueDict.keys():
@@ -177,7 +177,7 @@ def generate():
             if len(c2e3Var.get()) >= 1:
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
-    if len(noCoupon) >= 3:
+    elif len(noCoupon) >= 3:
         if value1Var.get() not in valueDict.keys():
             worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
         if value2Var.get() not in valueDict.keys():
@@ -346,29 +346,13 @@ def HTML(x):
     html.write('</script>\n')
     html.write('\n')
     if len(x) == 3:
-
-        # <table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">
-        #     <tr>
-        #         <td bgcolor="#ffe7e3">
-        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_01.jpg" width="470" height="350" alt=""></td>
-        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_02.jpg" width="333" height="350" alt=""></a></td>
-        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('wFgVh_g_1_x_g_1_bh0_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_03.jpg" width="304" height="350" alt=""></a></td>
-        #         <td colspan="2" bgcolor="#ffe7e3"><a href="javascript:Util.EventApply('XK8UiONnvpI_g_3_');"><img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_04.jpg" width="343" height="350" alt=""></a></td>
-        #         <td bgcolor="#ffe7e3">
-        #         <img src="https://dp.image-gmkt.com/dp2016/SG/design/CM1/2020/campaignmarketing/MAR/Qoo10day/0310_Qoo10Day_Coupons_WEBv3_05.jpg" width="470" height="350" alt=""></td>
-        #     </tr>
-        # </table>	
-
-        html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
-        html.write('    <tr>')
-        html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
-        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
-        html.write('    </tr>\n')
-        html.write('    <tr>\n')
-        for i in range(len(x)-1):
-            html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
-        html.write('    </tr>\n')
-        html.write('</table>\n')
+        html.write('    <table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">\n')
+        html.write('        <tr>\n')
+        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] + '" width="640" height="350"></a></td>\n')
+        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(2)"><img src="' + x[1] + '" width="640" height="350"></a></td>\n')
+        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(3)"><img src="' + x[2] + '" width="640" height="350"></a></td>\n')
+        html.write('        </tr>\n')
+        html.write('    </table>\n')
         html.write('\n')
     else:
         html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
