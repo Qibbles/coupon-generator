@@ -107,7 +107,7 @@ def generate():
                 worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
             # Coupon 1 variables
             if len(c1e1Var.get()) == 0:
-                messagebox.showinfo("Error", "You require at least 1 EID!")
+                messagebox.showinfo("Error", "You require at least 1 EID for the first coupon!")
             else:
                 if len(c1e1Var.get()) >= 1:
                     coupon1Dict[c1e1Var.get()] = c1t1Var.get()
@@ -119,13 +119,11 @@ def generate():
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
     if len(noCoupon) >= 2:
-        if value1Var.get() not in valueDict.keys():
-            worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
         if value2Var.get() not in valueDict.keys():
             worksheet.append_row([value2Var.get(),'', desktopCoupon2ImgVar.get(), mobileCoupon2ImgVar.get()])
         # Coupon 1 variables
         if len(c2e1Var.get()) == 0:
-            messagebox.showinfo("Error", "You require at least 1 EID!")
+            messagebox.showinfo("Error", "You require at least 1 EID for the second coupon!")
         else:
             if len(c2e1Var.get()) >= 1:
                 coupon2Dict[c2e1Var.get()] = c2t1Var.get()
@@ -137,15 +135,11 @@ def generate():
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
     if len(noCoupon) >= 3:
-        if value1Var.get() not in valueDict.keys():
-            worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
-        if value2Var.get() not in valueDict.keys():
-            worksheet.append_row([value2Var.get(),'', desktopCoupon2ImgVar.get(), mobileCoupon2ImgVar.get()])
         if value3Var.get() not in valueDict.keys():
             worksheet.append_row([value3Var.get(),'', desktopCoupon3ImgVar.get(), mobileCoupon3ImgVar.get()])
         # Coupon 1 variables
         if len(c3e1Var.get()) == 0:
-            messagebox.showinfo("Error", "You require at least 1 EID!")
+            messagebox.showinfo("Error", "You require at least 1 EID for third coupon!")
         else:
             if len(c3e1Var.get()) >= 1:
                 coupon3Dict[c3e1Var.get()] = c3t1Var.get()
