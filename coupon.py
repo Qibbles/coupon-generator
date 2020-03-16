@@ -25,9 +25,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 #         for line in fp:
 #             print(line)
 
-# if __name__ == '__main__':
-#     print_file('data_files/coupon-generator.json')
-
 ######## Google API client authorization ########
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
@@ -46,14 +43,6 @@ def designs():
     valueDictKey = []
     designList = []
 
-    # for i in range(len(worksheet.col_values(1))):
-    #     designList.append(worksheet.cell(i+1, 3).value)
-    # del designList[0:2]
-
-    # for i in range(len(designList)):
-    #     if designList[i] != "":
-    #         valueDict[worksheet.cell(i+3, 1).value] = designList[i]
-
     for i in range(len(worksheet.col_values(1)) - 3):
         if len(worksheet.cell(i+3, 3).value) != 0: # Check if desktop design exists
             value = worksheet.cell(i+3,1).value
@@ -66,38 +55,6 @@ def designs():
 if __name__ == "__main__":
     designs()
 
-# def event(*args):
-#     print(self.eventBoxVar)
-#     # if eventBoxVar.get() == 1:
-#     #     flavorLabel.destroy()
-#     #     # flavorTextEntry.destroy()
-
-#     #     desktopFlavorLabel = ttk.Label(frame1, text="Desktop Design")
-#     #     desktopFlavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
-
-#     #     desktopFlavorDesignVar = tk.StringVar()
-#     #     desktopFlavorDesign = ttk.Entry(frame1, width=20, textvariable=desktopFlavorDesignVar)
-#     #     desktopFlavorDesign.grid(column=1, row=2, pady=2, sticky="nw")
-
-#     #     mobileFlavorLabel = ttk.Label(frame1, text="Mobile Design")
-#     #     mobileFlavorLabel.grid(column=0, row=3, padx=10, sticky="nw")
-
-#     #     mobileFlavorDesignVar = tk.StringVar()
-#     #     mobileFlavorDesign = ttk.Entry(frame1, width=20, textvariable=mobileFlavorDesignVar)
-#     #     mobileFlavorDesign.grid(column=1, row=3, pady=2, sticky="nw")
-#     # else:
-#     #     # desktopFlavorLabel.destroy()
-#     #     # desktopFlaborDesign.destroy()
-#     #     # mobileFlavourLabel.destroy()
-#     #     # mobileFlavorDesign.destroy()
-
-#     #     flavorLabel = ttk.Label(frame1, text="Flavor Text")
-#     #     flavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
-
-#     #     flavorTextEntryVar = tk.StringVar()
-#     #     flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
-#     #     flavorTextEntry.grid(column=1, row=2, pady=2, sticky="nw")
-
 ## Updating design entry box
 def update(*args):
     desktopCoupon1Img.delete(first=0, last='end')
@@ -106,15 +63,18 @@ def update(*args):
     mobileCoupon1Img.delete(first=0, last='end')
     mobileCoupon2Img.delete(first=0, last='end')
     mobileCoupon3Img.delete(first=0, last='end')
-    if len(value1.get()) != 0:
-        desktopCoupon1Img.insert(0, valueDict[value1Var.get()][0])
-        mobileCoupon1Img.insert(0, valueDict[value1Var.get()][1])
-    if len(value2.get()) != 0:
-        desktopCoupon2Img.insert(0, valueDict[value2Var.get()][0])
-        mobileCoupon2Img.insert(0, valueDict[value2Var.get()][1])
-    if len(value3.get()) != 0:
-        desktopCoupon3Img.insert(0, valueDict[value3Var.get()][0])
-        mobileCoupon3Img.insert(0, valueDict[value3Var.get()][1])
+    try:
+        if len(value1.get()) != 0:
+            desktopCoupon1Img.insert(0, valueDict[value1Var.get()][0])
+            mobileCoupon1Img.insert(0, valueDict[value1Var.get()][1])
+        if len(value2.get()) != 0:
+            desktopCoupon2Img.insert(0, valueDict[value2Var.get()][0])
+            mobileCoupon2Img.insert(0, valueDict[value2Var.get()][1])
+        if len(value3.get()) != 0:
+            desktopCoupon3Img.insert(0, valueDict[value3Var.get()][0])
+            mobileCoupon3Img.insert(0, valueDict[value3Var.get()][1])
+    except:
+        pass
 
 ## Generating HTML
 def generate():
@@ -131,19 +91,18 @@ def generate():
     coupon2Dict = {}
     coupon3Dict = {}
 
-    if len(dekstopCoupon1ImgVar.get()) == 0:
+    if len(desktopCoupon1ImgVar.get()) == 0:
         messagebox.showinfo("Oops!","At least 1 Coupon image is required!")
     else:
         if len(desktopCoupon1ImgVar.get()) != 0: 
-            noCoupon.append(dekstopCoupon1ImgVar.get())
+            noCoupon.append(desktopCoupon1ImgVar.get())
         if len(desktopCoupon2ImgVar.get()) != 0:
             noCoupon.append(desktopCoupon2ImgVar.get())   
         if len(desktopCoupon3ImgVar.get()) != 0:
             noCoupon.append(desktopCoupon3ImgVar.get())
-    print(len(noCoupon))
-    if len(noCoupon) == 1:     
+    date = dateEntryVar.get()
+    if len(noCoupon) >= 1:     
             flavorText = flavorTextEntryVar.get()
-            date = dateEntryVar.get()
             if value1Var.get() not in valueDict.keys():
                 worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
             # Coupon 1 variables
@@ -159,7 +118,7 @@ def generate():
                 if len(c1e3Var.get()) >= 1:
                     coupon1Dict[c1e3Var.get()] = c1t3Var.get()
                     coupon1EID = 3 
-    elif len(noCoupon) == 2:
+    if len(noCoupon) >= 2:
         if value1Var.get() not in valueDict.keys():
             worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
         if value2Var.get() not in valueDict.keys():
@@ -177,7 +136,7 @@ def generate():
             if len(c2e3Var.get()) >= 1:
                 coupon2Dict[c2e3Var.get()] = c2t3Var.get()
                 coupon2EID = 3 
-    elif len(noCoupon) >= 3:
+    if len(noCoupon) >= 3:
         if value1Var.get() not in valueDict.keys():
             worksheet.append_row([value1Var.get(),'', desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()])
         if value2Var.get() not in valueDict.keys():
@@ -346,11 +305,11 @@ def HTML(x):
     html.write('</script>\n')
     html.write('\n')
     if len(x) == 3:
-        html.write('    <table width="1920" border="0" cellpadding="0" cellspacing="0" style="margin-left: -475px;">\n')
+        html.write('    <table width="980" border="0" align="center" cellpadding="0" cellspacing="0">\n')
         html.write('        <tr>\n')
-        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] + '" width="640" height="350"></a></td>\n')
-        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(2)"><img src="' + x[1] + '" width="640" height="350"></a></td>\n')
-        html.write('            <td colspan="2"><a href="javascript:eventApplyTime(3)"><img src="' + x[2] + '" width="640" height="350"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(1)"><img src="' + x[0] + '" width="327"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(2)"><img src="' + x[1] + '" width="326"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(3)"><img src="' + x[2] + '" width="327"></a></td>\n')
         html.write('        </tr>\n')
         html.write('    </table>\n')
         html.write('\n')
@@ -385,9 +344,9 @@ def HTML(x):
     html.write('            <span onclick="document.getElementById(\'tnc\').style.display=\'none\'" class="buttonDisplayTopright">&times;</span>\n')
     html.write('            <p class="tncHeader">Terms and Conditions</p>\n')
     html.write('            <ul>\n')
-    html.write('                <li>Event runs from <b>' + date + ' (Event Period)</b>.</li>\n')
-    html.write('                <li>Coupons may only be received during <u>Event Period</u>.</li>\n')
-    html.write('                <li>Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
+    html.write('                <li>- Event runs from <b>' + date + ' (Event Period)</b>.</li>\n')
+    html.write('                <li>- Coupons may only be received during <u>Event Period</u>.</li>\n')
+    html.write('                <li>- Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
     value = []
     altValue = []
     if re.search("[0-9]/[0-9]", value1Var.get()):
@@ -409,24 +368,24 @@ def HTML(x):
     qty = [qty1EntryVar.get(), qty2EntryVar.get(), qty3EntryVar.get()]
     for i in range(len(x)):
         if len(altValue[i]) == 0:
-            html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+            html.write('            <li>- <b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
         else:
-            html.write('            <li><b>' + altValue[i] + '</b>.</li>\n')
+            html.write('            <li>- <b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
-        html.write('                <li>Coupon redemption available at daily at:.</li>\n')
+        html.write('                <li>- Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
         for eachTime in range(len(timeList[i])):
             html.write('                        <li>' + str(timeList[i][eachTime]) + ':00</li>\n')
         html.write('                    </ul>\n')
-        html.write('                <li><b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
-        html.write('                <li>Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
+        html.write('                <li>- <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
+        html.write('                <li>- Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
         html.write('            </ul>')
-    html.write('                <li>Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
-    html.write('                <li>Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
-    html.write('                <li>Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
-    html.write('                <li>Coupons cannot be sold or exchanged for cash.</li>\n')
-    html.write('                <li>Qoo10 Singapore reserves the rights to make any amendments to the Terms and Conditions herein at any point in time, without prior notice.</li>\n')
-    html.write('                <li>By participating in this event, you agree to be bound by the Terms and Conditions, the User Agreement, and the decisions of Qoo10.</li>\n')
+    html.write('                <li>- Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
+    html.write('                <li>- Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
+    html.write('                <li>- Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
+    html.write('                <li>- Coupons cannot be sold or exchanged for cash.</li>\n')
+    html.write('                <li>- Qoo10 Singapore reserves the rights to make any amendments to the Terms and Conditions herein at any point in time, without prior notice.</li>\n')
+    html.write('                <li>- By participating in this event, you agree to be bound by the Terms and Conditions, the User Agreement, and the decisions of Qoo10.</li>\n')
     html.write('            </ul>\n')
     html.write('        </div>\n')
     html.write('    </div>\n')
@@ -615,29 +574,29 @@ def HTML(x):
     html.write('        <span onclick="document.getElementById(\'tnc\').style.display=\'none\'" class="buttonDisplayTopright">&times;</span>\n')
     html.write('        <p class="tncHeader">Terms and Conditions</p>\n')
     html.write('        <ul>\n')
-    html.write('            <li>Event runs from <b>' + date + ' (Event Period)</b>.</li>\n')
-    html.write('            <li>Coupons may only be received during <u>Event Period</u>.</li>\n')
-    html.write('            <li>Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
+    html.write('            <li>- Event runs from <b>' + date + ' (Event Period)</b>.</li>\n')
+    html.write('            <li>- Coupons may only be received during <u>Event Period</u>.</li>\n')
+    html.write('            <li>- Coupons are valid only for the duration of the <u>Event Period</u>.</li>\n')
     for i in range(len(x)):
         if len(altValue[i]) == 0:
-            html.write('            <li><b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+            html.write('            <li>- <b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
         else:
-            html.write('            <li><b>' + altValue[i] + '</b>.</li>\n')
+            html.write('            <li>- <b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
-        html.write('                <li>Coupon redemption available at daily at:.</li>\n')
+        html.write('                <li>- Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
         for eachTime in range(len(timeList[i])):
             html.write('                        <li>' + str(timeList[i][eachTime]) + ':00</li>\n')
         html.write('                    </ul>\n')
-        html.write('                <li><b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
-        html.write('                <li>Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
+        html.write('                <li>- <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
+        html.write('                <li>- Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
         html.write('            </ul>')
-    html.write('            <li>Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
-    html.write('            <li>Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
-    html.write('            <li>Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
-    html.write('            <li>Coupons cannot be sold or exchanged for cash.</li>\n')
-    html.write('            <li>Qoo10 Singapore reserves the rights to make any amendments to the Terms and Conditions herein at any point in time, without prior notice.</li>\n')
-    html.write('            <li>By participating in this event, you agree to be bound by the Terms and Conditions, the User Agreement, and the decisions of Qoo10.</li>\n')
+    html.write('            <li>- Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
+    html.write('            <li>- Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
+    html.write('            <li>- Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
+    html.write('            <li>- Coupons cannot be sold or exchanged for cash.</li>\n')
+    html.write('            <li>- Qoo10 Singapore reserves the rights to make any amendments to the Terms and Conditions herein at any point in time, without prior notice.</li>\n')
+    html.write('            <li>- By participating in this event, you agree to be bound by the Terms and Conditions, the User Agreement, and the decisions of Qoo10.</li>\n')
     html.write('        </ul>\n')
     html.write('    </div>\n')
     html.write('</div>\n')
@@ -665,10 +624,6 @@ nb.add(guide, text="Help")
 frame1 = tk.Frame(win)
 frame1.grid(column=0, row=0, padx=5)
 
-# eventBoxVar = tk.IntVar()
-# eventBox = ttk.Checkbutton(frame1, text="Event", variable=eventBoxVar, command=event)
-# eventBox.grid(column=0, row=0, padx=10, sticky="w")
-
 dateLabel = ttk.Label(frame1, text="Date")
 dateLabel.grid(column=0, row=1, padx=10, sticky="nw")
 
@@ -682,20 +637,6 @@ flavorLabel.grid(column=0, row=2, padx=10, sticky="nw")
 flavorTextEntryVar = tk.StringVar()
 flavorTextEntry = ttk.Entry(frame1, width=20, textvariable=flavorTextEntryVar)
 flavorTextEntry.grid(column=1, row=2, pady=2, sticky="nw")
-
-desktopFlavorLabel = ttk.Label(frame1, text="Desktop Design")
-desktopFlavorLabel.grid(column=0, row=3, padx=10, sticky="nw")
-
-desktopFlavorDesignVar = tk.StringVar()
-desktopFlavorDesign = ttk.Entry(frame1, width=20, textvariable=desktopFlavorDesignVar)
-desktopFlavorDesign.grid(column=1, row=3, pady=2, sticky="nw")
-
-mobileFlavorLabel = ttk.Label(frame1, text="Mobile Design")
-mobileFlavorLabel.grid(column=0, row=4, padx=10, sticky="nw")
-
-mobileFlavorDesignVar = tk.StringVar()
-mobileFlavorDesign = ttk.Entry(frame1, width=20, textvariable=mobileFlavorDesignVar)
-mobileFlavorDesign.grid(column=1, row=4, pady=2, sticky="nw")
 
 ## Frame 2 (Coupon 1 frame)
 frame2 = tk.Frame(win, highlightbackground="black", highlightthickness=1, padx=2, pady=2)
