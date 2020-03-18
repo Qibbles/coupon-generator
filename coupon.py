@@ -89,13 +89,14 @@ def generate():
         return
     else:
         if len(desktopCoupon1ImgVar.get()) != 0: 
-            noCoupon.append(desktopCoupon1ImgVar.get())
+            noCoupon.append((desktopCoupon1ImgVar.get(), mobileCoupon1ImgVar.get()))
         if len(desktopCoupon2ImgVar.get()) != 0:
-            noCoupon.append(desktopCoupon2ImgVar.get())   
+            noCoupon.append((desktopCoupon2ImgVar.get(), mobileCoupon2ImgVar.get()))   
         if len(desktopCoupon3ImgVar.get()) != 0:
-            noCoupon.append(desktopCoupon3ImgVar.get())
+            noCoupon.append((desktopCoupon3ImgVar.get(), mobileCoupon3ImgVar.get()))
     date = dateEntryVar.get()
     flavorText = flavorTextEntryVar.get()
+    print(len(noCoupon))
     if len(noCoupon) >= 1:
         if value1Var.get() in valueDictKey:
             pass
@@ -310,9 +311,9 @@ def HTML(x):
     if len(x) == 3:
         html.write('    <table width="980" border="0" align="center" cellpadding="0" cellspacing="0">\n')
         html.write('        <tr>\n')
-        html.write('            <td><a href="javascript:eventApplyTime(1)"><img src="' + x[0] + '" width="327"></a></td>\n')
-        html.write('            <td><a href="javascript:eventApplyTime(2)"><img src="' + x[1] + '" width="326"></a></td>\n')
-        html.write('            <td><a href="javascript:eventApplyTime(3)"><img src="' + x[2] + '" width="327"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(1)"><img src="' + x[0][0] + '" width="327"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(2)"><img src="' + x[1][0] + '" width="326"></a></td>\n')
+        html.write('            <td><a href="javascript:eventApplyTime(3)"><img src="' + x[2][0] + '" width="327"></a></td>\n')
         html.write('        </tr>\n')
         html.write('    </table>\n')
         html.write('\n')
@@ -329,7 +330,7 @@ def HTML(x):
             html.write('    </td>\n')
         for i in range(len(x)):
             html.write('    <td width="326" align="center" style="padding-right: 15px; padding-top:10px; padding-bottom: 10px;">\n')
-            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="100%" alt=""></a>\n')
+            html.write('        <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i][0] + '" width="100%" alt=""></a>\n')
             html.write('    </td>\n')
         html.write('</tr>\n')
         html.write('</table>\n')
@@ -540,11 +541,11 @@ def HTML(x):
         html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
         html.write('    <tr>')
         html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
-        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + mobileCoupon1ImgVar.get() + '" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0][1] + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('    <tr>\n')
-        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(2)"><img src="' + mobileCoupon2ImgVar.get() + '" width="100%" alt=""></a></td>\n')
-        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(3)"><img src="' + mobileCoupon3ImgVar.get() + '" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(2)"><img src="' + x[1][1] + '" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(3)"><img src="' + x[2][1] + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('</table>\n')
     else:
@@ -559,7 +560,7 @@ def HTML(x):
         html.write('    <tr>\n')
         html.write('        <td colspan="2" align="center" valign="top">\n')
         for i in range(len(x)):
-            html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i] + '" width="42%" style="margin: 0px 10px;"></a>\n')
+            html.write('            <a href="javascript:eventApplyTime(' + str(i + 1) + ')"><img src="' + x[i][1] + '" width="42%" style="margin: 0px 10px;"></a>\n')
         html.write('        </td>\n')
         html.write('    </tr>\n')
         html.write('    <tr>\n')
