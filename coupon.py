@@ -6,32 +6,28 @@ from collections import defaultdict
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# import sys
-# import os
+import sys
+import os
 
-# def resource_path(relative_path):
-#     """ Get absolute path to resource, works for dev and for PyInstaller """
-#     try:
-#         # PyInstaller creates a temp folder and stores path in _MEIPASS
-#         base_path = sys._MEIPASS
-#     except Exception:
-#         base_path = os.path.abspath(".")
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
-#     return os.path.join(base_path, relative_path)
+    return os.path.join(base_path, relative_path)
 
-# def print_file(file_path):
-#     file_path = resource_path(file_path)
-#     with open(file_path) as fp:
-#         for line in fp:
-#             print(line)
+
 
 ######## Google API client authorization ########
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('coupon-generator.json', scope)
-client = gspread.authorize(creds)
-
-sheet = client.open('Coupon Schedule')
-worksheet = sheet.worksheet("Coupon Summary")
+if __name__ == "__main__":
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name(resource_path("coupon-generator.json"), scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('Coupon Schedule')
+    worksheet = sheet.worksheet("Coupon Summary")
 
 ######## Functions ########
 
@@ -43,17 +39,16 @@ def designs():
     valueDictKey = []
     designList = []
 
-    for i in range(len(worksheet.col_values(1)) - 3):
+    for i in range(len(worksheet.col_values(1)) - 2):
         if len(worksheet.cell(i+3, 3).value) != 0: # Check if desktop design exists
             value = worksheet.cell(i+3,1).value
             valueDict[value].append(worksheet.cell(i+3,3).value) # Append desktop design URL to dictionary list
             valueDict[value].append(worksheet.cell(i+3,4).value) # Append mobile design URL to dictionary list
-     
+
     for each in valueDict.keys():
         valueDictKey.append(each)
 
-if __name__ == "__main__":
-    designs()
+designs()
 
 ## Updating design entry box
 def update(*args):
@@ -169,7 +164,7 @@ def generate():
     HTML(noCoupon)
 
 def HTML(x):
-    html = open("Coupon_" + date + "_" + flavorText + ".html", "w")
+    html = open("Coupon_" + date + ".html", "w")
     ##### Desktop #####
     # CSS 
     html.write('<!-- Desktop -->\n')
@@ -378,18 +373,19 @@ def HTML(x):
     qty = [qty1EntryVar.get(), qty2EntryVar.get(), qty3EntryVar.get()]
     for i in range(len(x)):
         if len(altValue[i]) == 0:
-            html.write('            <li>- <b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
+            html.write('               <li>- <b>' + value[i][0] + ' cart coupon</b> is applicable towards valid purchases with a <b>minimum order value of $' + value[i][1] + '</b>.</li>\n')
         else:
-            html.write('            <li>- <b>' + altValue[i] + '</b>.</li>\n')
+            html.write('               <li>- <b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
-        html.write('                <li>  (1) Coupon redemption available at daily at:.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp- Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
         for eachTime in range(len(timeList[i])):
-            html.write('                        <li>    ' + str(timeList[i][eachTime]) + ':00</li>\n')
+            html.write('                        <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- ' + str(timeList[i][eachTime]) + ':00</li>\n')
         html.write('                    </ul>\n')
-        html.write('                <li>  (2) <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
-        html.write('                <li>  (3) Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp- <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp-  Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
         html.write('            </ul>')
+        html.write('            <br>\n')
     html.write('                <li>- Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
     html.write('                <li>- Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
     html.write('                <li>- Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
@@ -426,7 +422,7 @@ def HTML(x):
     html.write('    border-radius: 18px;\n')
     html.write('    border: 0px;\n')
     html.write('    color: #FFF;\n')
-    html.write('    font-size: 25px;\n')
+    html.write('    font-size: 15px;\n')
     html.write('    letter-spacing: 1px;\n')
     html.write('    padding: 7px 25px;\n')
     html.write('    text-align: center\n')
@@ -434,7 +430,7 @@ def HTML(x):
     html.write('\n')
     html.write('.cartcouponphrase {\n')
     html.write('    font-family: Montserrat, Helvetica, Arial, sans-serif;\n')
-    html.write('    font-size: 35px;\n')
+    html.write('    font-size: 25px;\n')
     html.write('    font-weight: 700;\n')
     html.write('    color: #333333;\n')
     html.write('    line-height: 27px;\n')
@@ -546,11 +542,11 @@ def HTML(x):
         html.write('<table width="100%" border="0" cellpadding="0" cellspacing="0">\n')
         html.write('    <tr>')
         html.write('        <td width="50%"><img src="' + flavorText + '" width="100%"></td>\n')
-        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + x[0] +'" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(1)"><img src="' + mobileCoupon1ImgVar.get() + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('    <tr>\n')
-        for i in range(len(x)-1):
-            html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(' + str(i + 2) + ')"><img src="' + x[i+1] + '" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(2)"><img src="' + mobileCoupon2ImgVar.get() + '" width="100%" alt=""></a></td>\n')
+        html.write('        <td width="50%" bgcolor="#ffe7e3"><a href="javascript:eventApplyTime(3)"><img src="' + mobileCoupon3ImgVar.get() + '" width="100%" alt=""></a></td>\n')
         html.write('    </tr>\n')
         html.write('</table>\n')
     else:
@@ -594,14 +590,15 @@ def HTML(x):
         else:
             html.write('            <li>- <b>' + altValue[i] + '</b>.</li>\n')
         html.write('            <ul>\n')
-        html.write('                <li>  (1) Coupon redemption available at daily at:.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp- Coupon redemption available at daily at:.</li>\n')
         html.write('                    <ul>\n')
         for eachTime in range(len(timeList[i])):
-            html.write('                        <li>    ' + str(timeList[i][eachTime]) + ':00</li>\n')
+            html.write('                        <li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- ' + str(timeList[i][eachTime]) + ':00</li>\n')
         html.write('                    </ul>\n')
-        html.write('                <li>  (2) <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
-        html.write('                <li>  (3) Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp- <b>' + str(mmq[i]) + ' MameQ</b> is required for this cart coupon.</li>\n')
+        html.write('                <li>&nbsp&nbsp&nbsp&nbsp- Coupon is limited to a total of <b>' + str(qty[i]) + '</b> applicants daily.</li>\n')
         html.write('            </ul>')
+        html.write('            <br>\n')
     html.write('            <li>- Applicants may only once per coupon during the <u>Event Period</u>.</li>\n')
     html.write('            <li>- Event application/purchases are only available within Qoo10 Singapore (www.qoo10.sg).</li>\n')
     html.write('            <li>- Entries received after the <u>Event Period</u> will be invalid and no refunds will be issued.</li>\n')
@@ -930,4 +927,5 @@ helpMsg = "Fill in details and HTML for coupons and TnCs will be auto-generated.
 helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
 
+# win.iconbitmap(resource_path("mmq.ico"))
 win.mainloop()
