@@ -19,8 +19,6 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-
-
 ######## Google API client authorization ########
 if __name__ == "__main__":
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
@@ -927,5 +925,9 @@ helpMsg = "Fill in details and HTML for coupons and TnCs will be auto-generated.
 helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
 
-# win.iconbitmap(resource_path("mmq.ico"))
+try:
+    win.iconbitmap(resource_path("mmq.ico"))
+except:
+    pass
+
 win.mainloop()
