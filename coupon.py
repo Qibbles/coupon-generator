@@ -442,7 +442,7 @@ def HTML(x):
     html.write('    padding-top: 100px; /* Location of the box */\n')
     html.write('    left: 0;\n')
     html.write('    top: 0;\n')
-    html.write('    width: 100%; /* Full width */\n')
+    html.write('    width: 50%; /* Half width */\n')
     html.write('    height: 100%; /* Full height */\n')
     html.write('    overflow: auto; /* Enable scroll if needed */\n')
     html.write('    background-color: rgb(0,0,0); /* Fallback color */\n')
