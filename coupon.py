@@ -5,7 +5,6 @@ from tkinter import messagebox
 from collections import defaultdict
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
 import sys
 import os
 
@@ -298,7 +297,7 @@ def HTML(x):
     html.write('    }\n')
     html.write('    if (hours.length == 1) {Util.EventApply(events[0]);}\n')
     html.write('        else if (hours.length == 2) {\n')
-    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
     html.write('                else if (currentHour >= hours[1]) {Util.EventApply(events[1]);}\n')
     html.write('        }\n')
     html.write('        else if (hours.length == 3) {\n')
@@ -528,7 +527,7 @@ def HTML(x):
     html.write('    }\n')
     html.write('    if (hours.length == 1) {Util.EventApply(events[0]);}\n')
     html.write('        else if (hours.length == 2) {\n')
-    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}')
+    html.write('            if (currentHour >= hours[0] && currentHour < hours[1]) {Util.EventApply(events[0]);}\n')
     html.write('                else if (currentHour >= hours[1]) {Util.EventApply(events[1]);}\n')
     html.write('        }\n')
     html.write('        else if (hours.length == 3) {\n')
@@ -610,12 +609,13 @@ def HTML(x):
     html.write('    </div>\n')
     html.write('</div>\n')
     html.close()
-    messagebox.showinfo("Success!", 'Filename: "Coupon_' + date + "_" + flavorText + '.html" Generated!')
+    messagebox.showinfo("Success!", 'Filename: "Coupon_' + date + '.html" Generated!')
 
 ######## GUI ########
 win = tk.Tk()
 win.title("Coupon HTML Creator")
 win.resizable(False, False)
+win.iconbitmap(resource_path("mmq.ico"))
 
 ## Notebook
 nb = ttk.Notebook(win)
@@ -927,10 +927,5 @@ generateButton.grid(column=0, row=2, columnspan=4, sticky="NSEW")
 helpMsg = "Fill in details and HTML for coupons and TnCs will be auto-generated. For event days, please key in a coupon description in 'Value' field (i.e., ), and paste the design in manually. Please report bugs to Gregory."
 helpLabel = tk.Message(guide, text=helpMsg, width=500)
 helpLabel.grid(row=0, column=0)
-
-try:
-    win.iconbitmap(resource_path("mmq.ico"))
-except:
-    pass
 
 win.mainloop()
