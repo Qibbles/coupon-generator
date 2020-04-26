@@ -95,7 +95,6 @@ def generate():
             noCoupon.append((desktopCoupon3ImgVar.get(), mobileCoupon3ImgVar.get()))
     date = dateEntryVar.get()
     flavorText = flavorTextEntryVar.get()
-    print(len(noCoupon))
     if len(noCoupon) >= 1:
         if value1Var.get() in valueDictKey:
             pass
@@ -159,7 +158,23 @@ def generate():
                 coupon3Dict[c3e3Var.get()] = c3t3Var.get()
                 coupon3EID = 3 
 
-    HTML(noCoupon)
+    HTML(noCoupon)Dear Sellers,
+
+With the extension of 'circuit breaker', we understand that our seller partners may have concerns
+regarding the upkeep of their 'Seller Grade', especially for those who may be facing operational 
+challenges.
+
+We would like to reassure that all your feedbacks and concerns are taken seriously and would like to inform all 
+sellers that there will be no degradation/down-grading of 'Seller Grade' for Q2 2020.
+
+Please note that sellers may continue to move up in grade if they meet the requirements.
+
+We encourage all sellers to visit the following link for more information:
+https://www.qoo10.sg/DynamicAD/9109
+
+We wish everyone, and their family the very best of health!
+
+Qoo10
 
 def HTML(x):
     html = open("Coupon_" + date + ".html", "w")
