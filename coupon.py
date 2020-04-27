@@ -158,23 +158,7 @@ def generate():
                 coupon3Dict[c3e3Var.get()] = c3t3Var.get()
                 coupon3EID = 3 
 
-    HTML(noCoupon)Dear Sellers,
-
-With the extension of 'circuit breaker', we understand that our seller partners may have concerns
-regarding the upkeep of their 'Seller Grade', especially for those who may be facing operational 
-challenges.
-
-We would like to reassure that all your feedbacks and concerns are taken seriously and would like to inform all 
-sellers that there will be no degradation/down-grading of 'Seller Grade' for Q2 2020.
-
-Please note that sellers may continue to move up in grade if they meet the requirements.
-
-We encourage all sellers to visit the following link for more information:
-https://www.qoo10.sg/DynamicAD/9109
-
-We wish everyone, and their family the very best of health!
-
-Qoo10
+    HTML(noCoupon)
 
 def HTML(x):
     html = open("Coupon_" + date + ".html", "w")
@@ -353,10 +337,10 @@ def HTML(x):
         html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
     html.write('    <div>\n')
-    html.write('        <button class="button buttonCpn" onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</button></a>\n')
-    html.write('        <a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
-    html.write('        <a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" target="_blank"><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
-    html.write('        <a href="https://dp.image-gmkt.com/dp2016/SG/design/How_to_use_coupons.jpg" target="_blank"><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
+    html.write('        <a href="#"  onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</a>\n')
+    html.write('        <a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank">Get MameQ and Rewards &#9656;</a>\n')
+    html.write('        <a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" target="_blank">Send Coupon &#9656;</a>\n')
+    html.write('        <a href="https://dp.image-gmkt.com/dp2016/SG/design/How_to_use_coupons.jpg" target="_blank">How to use Coupon? &#9656;</a>\n')
     html.write('    </div>\n')
     html.write('\n')
     html.write('    <div id="tnc" class="tncModal">\n')
@@ -437,7 +421,7 @@ def HTML(x):
     html.write('    border-radius: 18px;\n')
     html.write('    border: 0px;\n')
     html.write('    color: #FFF;\n')
-    html.write('    font-size: 15px;\n')
+    html.write('    font-size: 12px;\n')
     html.write('    letter-spacing: 1px;\n')
     html.write('    padding: 7px 25px;\n')
     html.write('    text-align: center\n')
