@@ -309,7 +309,7 @@ def HTML(x):
     html.write('</script>\n')
     html.write('\n')
     if len(x) == 3:
-        html.write('    <table width="980" border="0" align="center" cellpadding="0" cellspacing="0">\n')
+        html.write('    <table width="1260" border="0" align="center" cellpadding="0" cellspacing="0">\n')
         html.write('        <tr>\n')
         html.write('            <td><a href="javascript:eventApplyTime(1)"><img src="' + x[0][0] + '" width="327"></a></td>\n')
         html.write('            <td><a href="javascript:eventApplyTime(2)"><img src="' + x[1][0] + '" width="326"></a></td>\n')
@@ -318,7 +318,7 @@ def HTML(x):
         html.write('    </table>\n')
         html.write('\n')
     else:
-        html.write('<table width="980" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
+        html.write('<table width="1260" height="200" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f8f8fa" class="cartcoupontable">\n')
         html.write('<tr>\n')
         if len(flavorText) and len(date) != 0:
             if len(x) == 1:
@@ -337,10 +337,10 @@ def HTML(x):
         html.write('\n')
     html.write('<div align="center" style="padding: 15px 5px;">\n')
     html.write('    <div>\n')
-    html.write('        <a href="#"  onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</a>\n')
-    html.write('        <a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank">Get MameQ and Rewards &#9656;</a>\n')
-    html.write('        <a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" target="_blank">Send Coupon &#9656;</a>\n')
-    html.write('        <a href="https://dp.image-gmkt.com/dp2016/SG/design/How_to_use_coupons.jpg" target="_blank">How to use Coupon? &#9656;</a>\n')
+    html.write('        <button class="button buttonCpn" onclick="document.getElementById(\'tnc\').style.display=\'block\'">Terms and Conditions &#9656;</button></a>\n')
+    html.write('        <a href="https://www.qoo10.sg/gmkt.inc/Event/qchance.aspx" target="_blank"><button class="button buttonCpn">Get MameQ and Rewards &#9656;</button></a>\n')
+    html.write('        <a href="http://dp.image-gmkt.com/dp2016/SG/design/PM1/2019/07/sendcoupon_WEB.html?2" target="_blank"><button class="button buttonCpn">Send Coupon &#9656;</button></a>\n')
+    html.write('        <a href="https://dp.image-gmkt.com/dp2016/SG/design/How_to_use_coupons.jpg" target="_blank"><button class="button buttonCpn">How to use Coupon? &#9656;</button></a>\n')
     html.write('    </div>\n')
     html.write('\n')
     html.write('    <div id="tnc" class="tncModal">\n')
@@ -421,7 +421,7 @@ def HTML(x):
     html.write('    border-radius: 18px;\n')
     html.write('    border: 0px;\n')
     html.write('    color: #FFF;\n')
-    html.write('    font-size: 12px;\n')
+    html.write('    font-size: 15px;\n')
     html.write('    letter-spacing: 1px;\n')
     html.write('    padding: 7px 25px;\n')
     html.write('    text-align: center\n')
@@ -616,7 +616,7 @@ def HTML(x):
 win = tk.Tk()
 win.title("Coupon HTML Creator")
 win.resizable(False, False)
-win.iconbitmap(resource_path("mmq.ico"))
+# win.iconbitmap(resource_path("mmq.ico"))
 
 ## Notebook
 nb = ttk.Notebook(win)
