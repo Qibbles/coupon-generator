@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['coupon.py'],
-             pathex=['C:\\Users\\gregory.chua\\odrive\\Projects\\Projects (gregmisc19@gmail.com)\\Projects\\Python\\coupon-generator\\coupon-generator'],
+             pathex=['C:\\Users\\coffe\\odrive\\Projects\\Projects\\Python\\coupon-generator'],
              binaries=[],
-             datas=[('coupon-generator.json', '.'), ('mmq.ico', '.')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -29,4 +29,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False , icon='mmq.ico')
+          console=True )
